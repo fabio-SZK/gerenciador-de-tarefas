@@ -51,3 +51,8 @@ Fazer login
 Alterar perfil
 
 Visualizar perfis de outros usuarios
+
+
+
+|Identificador| Descrição| Prioridade|
+| -------- | -------- | -------- |
