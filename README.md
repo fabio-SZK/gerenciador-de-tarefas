@@ -45,6 +45,9 @@ Listar equipes e usuários que estão ligados a um projeto
 Listar equipes que o usuário participa
 
 Cadastrar usuário
+
 Fazer login
+
 Alterar perfil
+
 Visualizar perfis de outros usuarios
