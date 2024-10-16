@@ -79,10 +79,10 @@ Visualizar perfis de outros usuarios
 |Identificador| Descrição| Tipo|
 | -------- | -------- | -------- |
 |RNF01|O sistema deve ser desenvolvido utilizando a linguagem de programação Java|Segurança|
-|RNF02|O sistema deve funcionar para mobile e desktop.|Segurança|
-|RNF03|O sistema deve ser desenvolvido utilizando as técnicas de Programação Orientada a Objetos.|Segurança|
+|RNF02|O sistema deve funcionar para mobile e desktop.|Portabilidade|
+|RNF03|O sistema deve ser desenvolvido utilizando as técnicas de Programação Orientada a Objetos.|Implementação|
 |RNF04|O sistema deve criptografar as informações ao salvar os dados.|Segurança|
-|RNF05|O sistema deve ter uma interface intuitiva, permitindo que novos usuários completem uma tarefa em menos de 3 minutos.|Segurança|
-|RNF06|O sistema deve ser desenvolvido utilizando a linguagem de programação Java.|Segurança|
+|RNF05|O sistema deve ter uma interface intuitiva, permitindo que novos usuários completem uma tarefa em menos de 3 minutos.|Facilidade de uso|
+|RNF06|O sistema deve ser desenvolvido utilizando a linguagem de programação Java.|Implementação|
 
 
