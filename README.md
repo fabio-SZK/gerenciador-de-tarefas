@@ -87,4 +87,9 @@ Visualizar perfis de outros usuarios
 |RNF05|O sistema deve ter uma interface intuitiva, permitindo que novos usuários completem uma tarefa em menos de 3 minutos.|Facilidade de uso|
 |RNF06|O sistema deve ser desenvolvido utilizando a linguagem de programação Java.|Implementação|
 
+***Relação de Atores***
+
+|ID| Nome do ator| Descrição|
+| -------- | -------- | -------- |
+|A1|Usuário|Responsável por cadastrar Usuário, definir responsável pela tarefa, Gerenciar Projeto, Gerenciar Tarefa e Consultar Usuários|
 
