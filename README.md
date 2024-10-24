@@ -76,7 +76,7 @@ Visualizar perfis de outros usuarios
 
 
 
-***Requisitos não funcionais***
+***Requisitos não funcionais***|
 
 |Identificador| Descrição| Tipo|
 | -------- | -------- | -------- |
@@ -94,4 +94,38 @@ Visualizar perfis de outros usuarios
 |A1|Usuário|Responsável por cadastrar Usuário, definir responsável pela tarefa, Gerenciar Projeto, Gerenciar Tarefa e Consultar Usuários|
 |A2|Administrador Da Equipe|Responsável por Gerenciar Equipe|
 |A3|Administrador Da Projeto|Responsável por Gerenciar Projeto|
+
+***Relação dos Casos de Uso***
+
+| ID    | Nome do Caso de Uso                 |
+|-------|-------------------------------------|
+| UC1   | Cadastrar Usuário                   |
+| UC2   | Gerenciar Perfil                    |
+| UC3   | Fazer Login                         |
+| UC4   | Definir Responsável pela Tarefa     |
+| UC5   | Gerenciar Tarefa                    |
+| UC5.1 | Consultar Tarefa                    |
+| UC5.2 | Gerenciar Tarefa                    |
+| UC5.3 | Excluir Tarefa                      |
+| UC5.4 | Alterar Tarefa                      |
+| UC5.5 | Listar Tarefa                       |
+| UC5.6 | Criar Tarefa                        |
+| UC5.7 | Criar Tarefa de Revisão             |
+| UC5.8 | Criar Tarefa de Planejamento        |
+| UC5.9 | Criar Tarefa de Execução            |
+| UC5.10| Aceitar Tarefa                      |
+| UC5.11| Recusar Tarefa                      |
+| UC6   | Gerenciar Equipe                    |
+| UC6.1 | Criar Equipe                        |
+| UC6.2 | Alterar Equipe                      |
+| UC6.3 | Excluir Equipe                      |
+| UC6.4 | Consultar Equipe                    |
+| UC6.5 | Listar Equipe                       |
+| UC6.6 | Adicionar Usuário                   |
+| UC7   | Gerenciar Projeto                   |
+| UC7.1 | Criar Projeto                       |
+| UC7.2 | Alterar Projeto                     |
+| UC7.3 | Consultar Projeto                   |
+| UC7.4 | Visualizar Projeto                  |
+| UC7.5 | Gerenciar Equipe                    |
 
