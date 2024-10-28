@@ -72,7 +72,8 @@ Visualizar perfis de outros usuarios
 |RF12|O sistema deve permitir ao usuário adicionar tarefas indicando prioridade, data limite, nome e descrição.|Alta|
 |RF13|O sistema deve permitir aos administradores de um projeto atribuir tarefas aos usuários ou equipes participantes.|Alta|
 |RF14|O sistema deve permitir ao usuário definir a prioridade de uma tarefa em baixa, média, alta ou urgente.|Alta|
-|RF15|O sistema deve apresentar ao usuário um calendário permitindo ao usuário consultar tarefas que estão relacionadas a um dia|Média|
+|RF15|O sistema deve apresentar ao usuário um calendário permitindo ao usuário consultar tarefas que estão relacionadas a um dia.|Média|
+|RF16|O sistema deve mostrar ao usuário o tempo que falta até chegar a data limite de suas tarefas.|Média|
 
 
 
