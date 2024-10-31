@@ -93,8 +93,7 @@ Visualizar perfis de outros usuarios
 |ID| Nome do ator| Descrição|
 | -------- | -------- | -------- |
 |A1|Usuário|Responsável por cadastrar Usuário, definir responsável pela tarefa, Gerenciar Projeto, Gerenciar Tarefa e Consultar Usuários|
-|A2|Administrador Da Equipe|Responsável por Gerenciar Equipe|
-|A3|Administrador Da Projeto|Responsável por Gerenciar Projeto|
+|A2|Administrador|Responsável por Gerenciar Equipe e Gerenciar Projeto|
 
 ***Relação dos Casos de Uso***
 
