@@ -60,7 +60,7 @@ Visualizar perfis de outros usuarios
 | -------- | -------- | -------- |
 |RF01|O sistema deve permitir o cadastro de usuário indicando nome, senha, e-mail e contato.|Alta|
 |RF02|O sistema deve permitir aos usuários o login indicando e-mail e senha.|Alta|
-|RF03|O sistema deve atribuir um perfil a cada usuário possuindo campos de nome de exibição obrigatório, descrição, contato, equipes e projetos opcionais.|Alta|
+|RF03|O sistema deve atribuir um perfil a cada usuário possuindo campos de nome de exibição obrigatório, descrição, equipes e projetos opcionais.|Alta|
 |RF04|O sistema deve permitir ao usuário adicionar ou remover tarefas.|Alta|
 |RF05|O sistema deve alertar por notificação sobre tarefas pendentes.|Média|
 |RF06|O sistema deve permitir ao usuário a criação de projetos indicando data de criação, objetivo, nome, data limite, usuários ou equipes participantes.|Alta|
