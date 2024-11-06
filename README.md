@@ -2,7 +2,7 @@
 
 # CLASSES -
 
-Abstrato Tarefa: FILHAS(TarefaDePlanejamento, TarefaDeExecucao, TarefaDeRevisao)
+Abstrato Tarefa: FILHAS(TarefaPessoal, TarefaAcademica, TarefaTrabalho)
 
 Usuario
 
