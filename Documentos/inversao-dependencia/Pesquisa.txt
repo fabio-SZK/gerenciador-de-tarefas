@@ -1,0 +1,41 @@
+Alunos: Fábio Massashi Suzuki 2576198
+	Álefh Trindade Luz De Lima 2576147
+	Gabriel Batistela da Silva 2576201
+
+Princípio de Inversão de Dependência
+
+Definição
+Módulos de alto nível não devem depender de módulos de baixo nível e ambos devem depender de abstrações.
+Abstrações não devem depender de detalhes, mas detalhes devem depender de abstrações.
+
+Objetivo
+O objetivo do Princípio de Inversão de Dependência é auxiliar na manutenibilidade e flexibilidade do código promovendo o desaclopamento dos módulos de alto nível dos módulos de baixo nivel
+
+Aplicações
+Aplicativos mobile, sistemas empresariais, etc.
+
+Exemplo em java
+
+// interface abstração do serviço de notificação
+public interface NotificationProvider {  
+    void sendNotification(String message);  
+}  
+
+public class NotificationService {  
+    private NotificationProvider notificationProvider;  
+   public NotificationService(NotificationProvider notificationProvider) {  
+        this.notificationProvider = notificationProvider;  
+    }  
+
+// módulo de alto nível
+public void sendNotification(String message) {  
+        notificationProvider.sendNotification(message);  
+    }  
+}  
+
+public class EmailNotificationService implements NotificationProvider {  
+    @Override  
+    public void sendNotification(String message) {  
+        // Implementação para enviar E-Mail
+    }  
+}  
