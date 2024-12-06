@@ -1,3 +1,5 @@
+import java.util.Date;
+
 class Tarefa {
     private int idTarefa;
     private Date prazoEntrega;
