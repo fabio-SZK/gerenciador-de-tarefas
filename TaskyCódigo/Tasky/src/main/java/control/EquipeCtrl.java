@@ -6,9 +6,10 @@ public class EquipeCtrl{
     private String descricao;
     private int idEquipe;
     private String funcao;
+    private ConexaoSQL conexao;
 
     public EquipeCtrl(){
-        // implementar conexão com BD
+        conexao.conectarBD();
     }
 
     public void adicionar(Equipe equipe){
