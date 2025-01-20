@@ -1,7 +1,6 @@
 package control;
 import java.util.Date;
 import model.Tarefa;
-import control.ConexaoSQL;
 
 public class TarefaCtrl{
     private int idTarefa;

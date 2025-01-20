@@ -1,6 +1,5 @@
 package control;
 
-import control.ConexaoSQL;
 import model.Perfil;
 
 public class PerfilCtrl{

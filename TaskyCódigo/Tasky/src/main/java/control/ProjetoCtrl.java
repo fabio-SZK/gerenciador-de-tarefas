@@ -1,6 +1,5 @@
 package control;
 
-import control.ConexaoSQL;
 import model.Projeto;
 import java.util.Date;
 

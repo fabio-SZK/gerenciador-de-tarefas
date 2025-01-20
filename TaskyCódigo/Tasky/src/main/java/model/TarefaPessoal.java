@@ -12,7 +12,7 @@ public class TarefaPessoal extends Tarefa {
         this.recorrencia = recorrencia;
     }
     
-    public String getRecorrencia() {
+    public String getLocal() {
         return local;
     }
 

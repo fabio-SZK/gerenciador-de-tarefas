@@ -1,5 +1,5 @@
 package control;
-import control.ConexaoSQL;
+import model.Usuario;
 
 public class UsuarioCtrl{
     private int idUsuario;

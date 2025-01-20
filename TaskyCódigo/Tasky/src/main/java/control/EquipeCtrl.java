@@ -1,4 +1,5 @@
-import control.ConexaoSQL;
+package control;
+
 import model.Equipe;
 
 public class EquipeCtrl{
