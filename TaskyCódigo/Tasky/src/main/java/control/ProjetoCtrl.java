@@ -1,3 +1,6 @@
+package control;
+
+import control.ConexaoSQL;
 import model.Projeto;
 import java.util.Date;
 
@@ -9,9 +12,10 @@ public class ProjetoCtrl{
     private String liderProjeto;
     private int idProjeto;
     private String objetivo;
+    private ConexaoSQL conexao;
 
     public ProjetoCtrl(){
-        // Implementar conexão com BD
+        conexao.conectarBD();
     }
 
     public void adicionar(Projeto projeto){

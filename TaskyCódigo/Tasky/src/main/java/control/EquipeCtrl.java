@@ -1,3 +1,4 @@
+import control.ConexaoSQL;
 import model.Equipe;
 
 public class EquipeCtrl{

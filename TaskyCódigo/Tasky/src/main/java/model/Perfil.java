@@ -1,5 +1,6 @@
+package model;
 
-class Perfil {
+public class Perfil {
     private String nome;
     private String descricao;
     private String funcao;

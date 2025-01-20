@@ -1,6 +1,7 @@
 package control;
 import java.util.Date;
 import model.Tarefa;
+import control.ConexaoSQL;
 
 public class TarefaCtrl{
     private int idTarefa;
@@ -8,9 +9,10 @@ public class TarefaCtrl{
     private String descricao;
     private String prioridade;
     private Date dataCriacao;
+    private ConexaoSQL conexao;
 
     public TarefaCtrl(){
-        // Implementar conexão com BD
+        conexao.conectarBD();
     }
 
     public void adicionar(Tarefa tarefa){

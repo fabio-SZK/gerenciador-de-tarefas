@@ -5,7 +5,7 @@ public class TarefaPessoal extends Tarefa {
     private String local;
 
     public String getRecorrencia() {
-        return ecorrencia;
+        return recorrencia;
     }
 
     public void setRecorrencia(String recorrencia) {

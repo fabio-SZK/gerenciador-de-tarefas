@@ -22,7 +22,7 @@ public class TarefaAcademica extends Tarefa {
         this.professor = professor;
     }
 
-    public String getNota() {
+    public float getNota() {
         return nota;
     }
 
