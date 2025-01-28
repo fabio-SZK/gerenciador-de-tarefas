@@ -12,8 +12,14 @@ public class Usuario {
     private int idUsuario;
     private String nome;
     private String senha;
-    private String login;
     private String email;
+
+    public Usuario(int idUsuario, String nome, String senha, String email) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.senha = senha;
+        this.email = email;
+    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -37,14 +43,6 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getEmail() {

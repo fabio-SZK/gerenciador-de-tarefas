@@ -11,9 +11,11 @@ package control;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.SQLException;
+
 public class ConexaoSQL {
-    static Connection conn = null;
-    static String url = "jdbc:postgresql://localhost:5432/teste";
+    private Connection conn = null;
+    static String url = "jdbc:postgresql://localhost:5432/TaskyTest";
     static String driver = "org.postgresql.Driver";
     static String user = "postgres";
     static String senha = "utfpr";
@@ -30,7 +32,7 @@ public class ConexaoSQL {
             System.out.println("Tentando conectar o BD...");
             conn = DriverManager.getConnection(url,user,senha);
             System.out.println("BD conectado com sucesso!");
-        }catch(Exception e){
+        }catch(SQLException e){
             System.out.println("Falha no carregamento!");
         }
     }
