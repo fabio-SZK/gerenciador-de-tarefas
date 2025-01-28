@@ -14,6 +14,7 @@ public class ProjetoCtrl{
     private ConexaoSQL conexao;
 
     public ProjetoCtrl(){
+        conexao = new ConexaoSQL();
         conexao.conectarBD();
     }
 

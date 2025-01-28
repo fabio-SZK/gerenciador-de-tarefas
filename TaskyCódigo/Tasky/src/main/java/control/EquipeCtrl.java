@@ -11,6 +11,7 @@ public class EquipeCtrl{
     private ConexaoSQL conexao;
 
     public EquipeCtrl(){
+        conexao = new ConexaoSQL();
         conexao.conectarBD();
     }
 

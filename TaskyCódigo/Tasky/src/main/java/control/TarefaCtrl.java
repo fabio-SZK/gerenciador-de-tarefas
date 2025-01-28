@@ -11,6 +11,7 @@ public class TarefaCtrl{
     private ConexaoSQL conexao;
 
     public TarefaCtrl(){
+        conexao = new ConexaoSQL();
         conexao.conectarBD();
     }
 
