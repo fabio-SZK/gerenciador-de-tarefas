@@ -1,18 +1,56 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+
 public class Equipe {
-    private String liderEquipe;
+    private int idEquipe;
+    private Usuario liderEquipe;
     private String areaAtuacao;
     private String descricao;
-    private int idEquipe;
     private String funcao;
     
+    private Projeto projeto;
+    private List<Usuario> membros;
+    private List<Tarefa> tarefasEquipe;
+    private List<TarefaAcademica> tarefasAcademicaEquipe;
+    private List<TarefaTrabalho> tarefasTrabalhoEquipe;
 
-    public String getLiderEquipe() {
+    public Equipe(int idEquipe, Usuario liderEquipe, String areaAtuacao, String descricao, String funcao, Projeto projeto, List<Usuario> membros, List<Tarefa> tarefasEquipe, List<TarefaAcademica> tarefasAcademicaEquipe, List<TarefaTrabalho> tarefasTrabalhoEquipe) {
+        this.idEquipe = idEquipe;
+        this.liderEquipe = liderEquipe;
+        this.areaAtuacao = areaAtuacao;
+        this.descricao = descricao;
+        this.funcao = funcao;
+        this.projeto = projeto;
+        this.membros = membros;
+        this.tarefasEquipe = tarefasEquipe;
+        this.tarefasAcademicaEquipe = tarefasAcademicaEquipe;
+        this.tarefasTrabalhoEquipe = tarefasTrabalhoEquipe;
+    }
+
+    public Equipe() {
+        idEquipe = 0;
+        liderEquipe = new Usuario();
+        areaAtuacao = "";
+        descricao = "";
+        funcao = "";
+        projeto = new Projeto();
+        membros = new ArrayList<>();
+        tarefasEquipe = new ArrayList<>();
+        tarefasAcademicaEquipe = new ArrayList<>();
+        tarefasTrabalhoEquipe = new ArrayList<>();
+    }
+    
+    
+    
+    public Usuario getLiderEquipe() {
         return liderEquipe;
     }
 
-    public void setLiderEquipe(String liderEquipe) {
+    public void setLiderEquipe(Usuario liderEquipe) {
         this.liderEquipe = liderEquipe;
     }
 
@@ -47,9 +85,41 @@ public class Equipe {
     public void setFuncao(String funcao) {
         this.funcao = funcao;
     }
-    
-    
 
+    public Projeto getProjeto() {
+        return projeto;
+    }
+
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
+    }
+
+    public List<Tarefa> getTarefasEquipe() {
+        return tarefasEquipe;
+    }
+
+    public void setTarefasEquipe(List<Tarefa> tarefasEquipe) {
+        this.tarefasEquipe = tarefasEquipe;
+    }
+
+    public List<TarefaAcademica> getTarefasAcademicaEquipe() {
+        return tarefasAcademicaEquipe;
+    }
+
+    public void setTarefasAcademicaEquipe(List<TarefaAcademica> tarefasAcademicaEquipe) {
+        this.tarefasAcademicaEquipe = tarefasAcademicaEquipe;
+    }
+
+    public List<TarefaTrabalho> getTarefasTrabalhoEquipe() {
+        return tarefasTrabalhoEquipe;
+    }
+
+    public void setTarefasTrabalhoEquipe(List<TarefaTrabalho> tarefasTrabalhoEquipe) {
+        this.tarefasTrabalhoEquipe = tarefasTrabalhoEquipe;
+    }
+
+    
+    
     public void criarEquipe() {
         // Implementação aqui
     }

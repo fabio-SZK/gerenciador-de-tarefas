@@ -20,6 +20,13 @@ public class Usuario {
         this.senha = senha;
         this.email = email;
     }
+    
+    public Usuario() {
+        this.idUsuario = 0;
+        this.nome = "";
+        this.senha = "";
+        this.email = "";
+    }
 
     public int getIdUsuario() {
         return idUsuario;
