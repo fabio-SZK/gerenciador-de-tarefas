@@ -72,6 +72,8 @@ public class EquipeCtrl{
         return null;
     }
     
+    
+    
     public void atualizar(Equipe equipe){
         String sql = "UPDATE equipe SET idliderequipe = ?, areaatuacao = ?, descricao = ?, funcao = ?, idprojeto = ? WHERE idequipe = ?";
         

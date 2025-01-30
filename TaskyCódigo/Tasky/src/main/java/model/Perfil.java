@@ -4,6 +4,7 @@ public class Perfil {
     private String nome;
     private String descricao;
     private String funcao;
+    private Usuario usuario;
 
     public String getNome() {
         return nome;
@@ -27,6 +28,14 @@ public class Perfil {
 
     public void setFuncao(String funcao) {
         this.funcao = funcao;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     

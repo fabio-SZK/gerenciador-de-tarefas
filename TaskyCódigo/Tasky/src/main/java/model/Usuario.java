@@ -4,6 +4,9 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Fabio
@@ -13,12 +16,21 @@ public class Usuario {
     private String nome;
     private String senha;
     private String email;
+    private Perfil perfilUsuario;
+    
+    private List<Projeto> projetosUsuario;
+    private List<Equipe> equipesUsuario;
+    private List<Tarefa> listaTarefasUsuario;
 
-    public Usuario(int idUsuario, String nome, String senha, String email) {
+    public Usuario(int idUsuario, String nome, String senha, String email, Perfil perfilUsuario, List<Projeto> projetosUsuario, List<Equipe> equipesUsuario, List<Tarefa> listaTarefasUsuario) {
         this.idUsuario = idUsuario;
         this.nome = nome;
         this.senha = senha;
         this.email = email;
+        this.perfilUsuario = perfilUsuario;
+        this.projetosUsuario = projetosUsuario;
+        this.equipesUsuario = equipesUsuario;
+        this.listaTarefasUsuario = listaTarefasUsuario;
     }
     
     public Usuario() {
@@ -26,6 +38,10 @@ public class Usuario {
         this.nome = "";
         this.senha = "";
         this.email = "";
+        this.perfilUsuario = new Perfil();
+        this.projetosUsuario = new ArrayList<>();
+        this.equipesUsuario = new ArrayList<>();
+        this.listaTarefasUsuario = new ArrayList<>();
     }
 
     public int getIdUsuario() {
@@ -59,6 +75,40 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Perfil getPerfilUsuario() {
+        return perfilUsuario;
+    }
+
+    public void setPerfilUsuario(Perfil perfilUsuario) {
+        this.perfilUsuario = perfilUsuario;
+    }
+
+    public List<Projeto> getProjetosUsuario() {
+        return projetosUsuario;
+    }
+
+    public void setProjetosUsuario(List<Projeto> projetosUsuario) {
+        this.projetosUsuario = projetosUsuario;
+    }
+
+    public List<Equipe> getEquipesUsuario() {
+        return equipesUsuario;
+    }
+
+    public void setEquipesUsuario(List<Equipe> equipesUsuario) {
+        this.equipesUsuario = equipesUsuario;
+    }
+
+    public List<Tarefa> getListaTarefasUsuario() {
+        return listaTarefasUsuario;
+    }
+
+    public void setListaTarefasUsuario(List<Tarefa> listaTarefasUsuario) {
+        this.listaTarefasUsuario = listaTarefasUsuario;
+    }
+
+    
     
     
 

@@ -9,10 +9,6 @@ import java.sql.SQLException;
 
 
 public class UsuarioCtrl{
-    private int idUsuario;
-    private String nome;
-    private String senha;
-    private String email;
     private ConexaoSQL conexao;
 
     public UsuarioCtrl() throws SQLException{
@@ -34,8 +30,14 @@ public class UsuarioCtrl{
                 int idUsuario = rs.getInt("idUsuario");
                 String email = rs.getString("email");
                       
+                Usuario login = new Usuario();
+                login.setIdUsuario(idUsuario);
+                login.setNome(usuario);
+                login.setSenha(senha);
+                login.setEmail(email);
+                
                 System.out.println("Login sucesso");
-                return new Usuario(idUsuario, nome, senha, email);
+                return login;
             }
         }
         catch(SQLException sqle){

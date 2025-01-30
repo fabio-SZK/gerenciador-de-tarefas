@@ -14,11 +14,9 @@ public class Projeto {
     
     private List<Usuario> membrosProjeto;
     private List<Equipe> equipesProjeto;
-    private List<Tarefa> tarefasProjeto;
-    private List<TarefaAcademica> tarefasAcademicaProjeto;
-    private List<TarefaTrabalho> tarefasTrabalhoProjeto;
+    private List<Tarefa> listaTarefasProjeto;
 
-    public Projeto(int idProjeto, String nome, String descricao, Date dataCriacao, Date dataUltima, List<Usuario> liderProjeto, String objetivo, List<Usuario> membrosProjeto, List<Equipe> equipesProjeto, List<Tarefa> tarefasProjeto, List<TarefaAcademica> tarefasAcademicaProjeto, List<TarefaTrabalho> tarefasTrabalhoProjeto) {
+    public Projeto(int idProjeto, String nome, String descricao, Date dataCriacao, Date dataUltima, List<Usuario> liderProjeto, String objetivo, List<Usuario> membrosProjeto, List<Equipe> equipesProjeto, List<Tarefa> listaTarefasProjeto) {
         this.idProjeto = idProjeto;
         this.nome = nome;
         this.descricao = descricao;
@@ -28,9 +26,7 @@ public class Projeto {
         this.objetivo = objetivo;
         this.membrosProjeto = membrosProjeto;
         this.equipesProjeto = equipesProjeto;
-        this.tarefasProjeto = tarefasProjeto;
-        this.tarefasAcademicaProjeto = tarefasAcademicaProjeto;
-        this.tarefasTrabalhoProjeto = tarefasTrabalhoProjeto;
+        this.listaTarefasProjeto = listaTarefasProjeto;
     }
     
     public Projeto() {
@@ -39,13 +35,11 @@ public class Projeto {
         descricao = "";
         dataCriacao = new Date();
         dataUltima = new Date();
-        liderProjeto = new ArrayList<Usuario>();
+        liderProjeto = new ArrayList<>();
         objetivo = "";
-        membrosProjeto = new ArrayList<Usuario>();
-        equipesProjeto = new ArrayList<Equipe>();
-        tarefasProjeto = new ArrayList<Tarefa>();
-        tarefasAcademicaProjeto = new ArrayList<TarefaAcademica>();
-        tarefasTrabalhoProjeto = new ArrayList<TarefaTrabalho>();
+        membrosProjeto = new ArrayList<>();
+        equipesProjeto = new ArrayList<>();
+        this.listaTarefasProjeto = new ArrayList<>();
     }
 
     public String getNome() {
@@ -122,32 +116,15 @@ public class Projeto {
         this.membrosProjeto = membrosProjeto;
     }
 
-    public List<Tarefa> getTarefasProjeto() {
-        return tarefasProjeto;
+    public List<Tarefa> getListaTarefasProjeto() {
+        return listaTarefasProjeto;
     }
 
-    public void setTarefasProjeto(List<Tarefa> tarefasProjeto) {
-        this.tarefasProjeto = tarefasProjeto;
+    public void setListaTarefasProjeto(List<Tarefa> listaTarefasProjeto) {
+        this.listaTarefasProjeto = listaTarefasProjeto;
     }
 
-    public List<TarefaAcademica> getTarefasAcademicaProjeto() {
-        return tarefasAcademicaProjeto;
-    }
 
-    public void setTarefasAcademicaProjeto(List<TarefaAcademica> tarefasAcademicaProjeto) {
-        this.tarefasAcademicaProjeto = tarefasAcademicaProjeto;
-    }
-
-    public List<TarefaTrabalho> getTarefasTrabalhoProjeto() {
-        return tarefasTrabalhoProjeto;
-    }
-
-    public void setTarefasTrabalhoProjeto(List<TarefaTrabalho> tarefasTrabalhoProjeto) {
-        this.tarefasTrabalhoProjeto = tarefasTrabalhoProjeto;
-    }
-
-    
-    
     
     public void criarProjeto() {
         // Implementação aqui

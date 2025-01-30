@@ -14,11 +14,9 @@ public class Equipe {
     
     private Projeto projeto;
     private List<Usuario> membros;
-    private List<Tarefa> tarefasEquipe;
-    private List<TarefaAcademica> tarefasAcademicaEquipe;
-    private List<TarefaTrabalho> tarefasTrabalhoEquipe;
+    private List<Tarefa> listaTarefasEquipe;
 
-    public Equipe(int idEquipe, Usuario liderEquipe, String areaAtuacao, String descricao, String funcao, Projeto projeto, List<Usuario> membros, List<Tarefa> tarefasEquipe, List<TarefaAcademica> tarefasAcademicaEquipe, List<TarefaTrabalho> tarefasTrabalhoEquipe) {
+    public Equipe(int idEquipe, Usuario liderEquipe, String areaAtuacao, String descricao, String funcao, Projeto projeto, List<Usuario> membros, List<Tarefa> listaTarefasEquipe) {
         this.idEquipe = idEquipe;
         this.liderEquipe = liderEquipe;
         this.areaAtuacao = areaAtuacao;
@@ -26,9 +24,7 @@ public class Equipe {
         this.funcao = funcao;
         this.projeto = projeto;
         this.membros = membros;
-        this.tarefasEquipe = tarefasEquipe;
-        this.tarefasAcademicaEquipe = tarefasAcademicaEquipe;
-        this.tarefasTrabalhoEquipe = tarefasTrabalhoEquipe;
+        this.listaTarefasEquipe = listaTarefasEquipe;
     }
 
     public Equipe() {
@@ -39,9 +35,7 @@ public class Equipe {
         funcao = "";
         projeto = new Projeto();
         membros = new ArrayList<>();
-        tarefasEquipe = new ArrayList<>();
-        tarefasAcademicaEquipe = new ArrayList<>();
-        tarefasTrabalhoEquipe = new ArrayList<>();
+        this.listaTarefasEquipe = new ArrayList<>();
     }
     
     
@@ -94,31 +88,22 @@ public class Equipe {
         this.projeto = projeto;
     }
 
-    public List<Tarefa> getTarefasEquipe() {
-        return tarefasEquipe;
+    public List<Usuario> getMembros() {
+        return membros;
     }
 
-    public void setTarefasEquipe(List<Tarefa> tarefasEquipe) {
-        this.tarefasEquipe = tarefasEquipe;
+    public void setMembros(List<Usuario> membros) {
+        this.membros = membros;
     }
 
-    public List<TarefaAcademica> getTarefasAcademicaEquipe() {
-        return tarefasAcademicaEquipe;
+    public List<Tarefa> getListaTarefasEquipe() {
+        return listaTarefasEquipe;
     }
 
-    public void setTarefasAcademicaEquipe(List<TarefaAcademica> tarefasAcademicaEquipe) {
-        this.tarefasAcademicaEquipe = tarefasAcademicaEquipe;
+    public void setListaTarefasEquipe(List<Tarefa> listaTarefasEquipe) {
+        this.listaTarefasEquipe = listaTarefasEquipe;
     }
 
-    public List<TarefaTrabalho> getTarefasTrabalhoEquipe() {
-        return tarefasTrabalhoEquipe;
-    }
-
-    public void setTarefasTrabalhoEquipe(List<TarefaTrabalho> tarefasTrabalhoEquipe) {
-        this.tarefasTrabalhoEquipe = tarefasTrabalhoEquipe;
-    }
-
-    
     
     public void criarEquipe() {
         // Implementação aqui
