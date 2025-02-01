@@ -3,9 +3,12 @@ package control;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import model.Equipe;
 import model.Perfil;
 import model.Projeto;
+import model.Tarefa;
+import model.Usuario;
 
 public class EquipeCtrl{
     private String liderEquipe;
@@ -92,5 +95,15 @@ public class EquipeCtrl{
         catch(SQLException sqle){
             System.out.println(sqle.getMessage());
         }
+    }
+    
+    public List<Usuario> consultarMembros(int idEquipe){
+        
+        return null;
+    }
+    
+    public List<Tarefa> consultarTarefas(int idEquipe){
+        
+        return null;
     }
 }

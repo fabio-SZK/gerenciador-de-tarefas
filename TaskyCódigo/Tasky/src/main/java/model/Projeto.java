@@ -1,6 +1,7 @@
 package model;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 public class Projeto {
@@ -28,13 +29,28 @@ public class Projeto {
         this.equipesProjeto = equipesProjeto;
         this.listaTarefasProjeto = listaTarefasProjeto;
     }
+
+    public Projeto(int idProjeto, String nome, String descricao, Date dataCriacao, Date dataUltima, String objetivo) {
+        this.idProjeto = idProjeto;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.dataCriacao = dataCriacao;
+        this.dataUltima = dataUltima;
+        liderProjeto = new ArrayList<>();
+        this.objetivo = objetivo;
+        membrosProjeto = new ArrayList<>();
+        equipesProjeto = new ArrayList<>();
+        this.listaTarefasProjeto = new ArrayList<>();
+    }
+    
+    
     
     public Projeto() {
         idProjeto = 0;
         nome = "";
         descricao = "";
-        dataCriacao = new Date();
-        dataUltima = new Date();
+        dataCriacao = new Date(0);
+        dataUltima = new Date(0);
         liderProjeto = new ArrayList<>();
         objetivo = "";
         membrosProjeto = new ArrayList<>();

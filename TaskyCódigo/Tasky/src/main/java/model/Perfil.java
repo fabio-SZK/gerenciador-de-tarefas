@@ -1,11 +1,22 @@
 package model;
 
 public class Perfil {
+    private int idPerfil;
     private String nome;
     private String descricao;
     private String funcao;
     private Usuario usuario;
 
+    public int getIdPerfil() {
+        return idPerfil;
+    }
+
+    public void setIdPerfil(int idPerfil) {
+        this.idPerfil = idPerfil;
+    }
+
+    
+    
     public String getNome() {
         return nome;
     }

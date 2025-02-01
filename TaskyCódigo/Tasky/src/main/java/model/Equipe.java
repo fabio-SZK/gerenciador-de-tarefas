@@ -27,6 +27,19 @@ public class Equipe {
         this.listaTarefasEquipe = listaTarefasEquipe;
     }
 
+    public Equipe(int idEquipe, Usuario liderEquipe, String areaAtuacao, String descricao, String funcao, Projeto projeto) {
+        this.idEquipe = idEquipe;
+        this.liderEquipe = liderEquipe;
+        this.areaAtuacao = areaAtuacao;
+        this.descricao = descricao;
+        this.funcao = funcao;
+        this.projeto = projeto;
+        this.membros = new ArrayList<>();
+        this.listaTarefasEquipe = new ArrayList<>();
+    }
+    
+    
+
     public Equipe() {
         idEquipe = 0;
         liderEquipe = new Usuario();

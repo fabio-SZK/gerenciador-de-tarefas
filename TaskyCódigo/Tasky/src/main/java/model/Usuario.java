@@ -32,6 +32,19 @@ public class Usuario {
         this.equipesUsuario = equipesUsuario;
         this.listaTarefasUsuario = listaTarefasUsuario;
     }
+
+    public Usuario(int idUsuario, String nome, String senha, String email, Perfil perfilUsuario) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.senha = senha;
+        this.email = email;
+        this.perfilUsuario = perfilUsuario;
+        this.projetosUsuario = new ArrayList<>();
+        this.equipesUsuario = new ArrayList<>();
+        this.listaTarefasUsuario = new ArrayList<>();
+    }
+    
+    
     
     public Usuario() {
         this.idUsuario = 0;

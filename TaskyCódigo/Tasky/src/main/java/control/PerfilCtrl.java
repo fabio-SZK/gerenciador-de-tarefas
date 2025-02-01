@@ -6,6 +6,7 @@ import model.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class PerfilCtrl{
     private String nome;
@@ -54,11 +55,35 @@ public class PerfilCtrl{
     }
     
     public void remover(Perfil perfil){
+        String sql = "DELETE FROM perfil WHERE idperfil = ?";
+        
+        try{
+            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
 
+            pstmt.setInt(1, perfil.getIdPerfil());
+            
+            pstmt.executeUpdate();
+        }
+        catch(SQLException sqle){
+            System.out.println(sqle.getMessage());
+        }
     }
     
-    public void consultar(Usuario usuario){
-        String sql = "UPDATE perfil SET nome = ?, descricao = ?, funcao = ? WHERE idusuario = ?";
+    public ResultSet consultar(){
+        String sql = "SELECT * FROM perfil";
+        
+        try{
+            Statement stmt = conexao.getConn().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            return rs;
+            
+        }
+        catch(SQLException sqle){
+            System.out.println(sqle.getMessage());
+        }
+        
+        return null;
     }
     
     public Perfil selecionar(Usuario usuario){
