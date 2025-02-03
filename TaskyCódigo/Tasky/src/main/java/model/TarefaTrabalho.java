@@ -5,7 +5,7 @@ public class TarefaTrabalho extends Tarefa {
     private String departamento;
     private Date prazoRevisao;
 
-    public TarefaTrabalho(String departamento, Date prazoRevisao, int idTarefa, Date prazoEntrega, String descricao, String prioridade, Date dataCriacao, Usuario usuario, Equipe equipe, Projeto projeto) {
+    public TarefaTrabalho(int idTarefa, Date prazoEntrega, String descricao, String prioridade, Date dataCriacao, Usuario usuario, Equipe equipe, Projeto projeto, String departamento, Date prazoRevisao) {
         super(idTarefa, prazoEntrega, descricao, prioridade, dataCriacao, usuario, equipe, projeto);
         this.departamento = departamento;
         this.prazoRevisao = prazoRevisao;

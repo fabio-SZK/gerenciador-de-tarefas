@@ -6,7 +6,7 @@ public class TarefaPessoal extends Tarefa {
     private String recorrencia;
     private String local;
 
-    public TarefaPessoal(String recorrencia, String local, int idTarefa, Date prazoEntrega, String descricao, String prioridade, Date dataCriacao, Usuario usuario, Equipe equipe, Projeto projeto) {
+    public TarefaPessoal(int idTarefa, Date prazoEntrega, String descricao, String prioridade, Date dataCriacao, Usuario usuario, Equipe equipe, Projeto projeto, String recorrencia, String local) {
         super(idTarefa, prazoEntrega, descricao, prioridade, dataCriacao, usuario, equipe, projeto);
         this.recorrencia = recorrencia;
         this.local = local;

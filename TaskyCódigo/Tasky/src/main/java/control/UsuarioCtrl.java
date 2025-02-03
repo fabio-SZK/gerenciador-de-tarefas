@@ -12,12 +12,15 @@ import java.util.List;
 import model.Equipe;
 import model.Projeto;
 import model.Tarefa;
+import model.TarefaAcademica;
+import model.TarefaPessoal;
+import model.TarefaTrabalho;
 
 
 public class UsuarioCtrl{
     private ConexaoSQL conexao;
 
-    public UsuarioCtrl() throws SQLException{
+    public UsuarioCtrl(){
         conexao = new ConexaoSQL();
         conexao.conectarBD();
     }
@@ -183,7 +186,7 @@ public class UsuarioCtrl{
         
         
         String sql = """
-            SELECT t.idtarefa, t.prazoentrega, t.descricao, t.prioridade, t.datacriacao, t.idusuario, t.idequipe, t.idprojeto, ta.materia, ta.professor, ta.nota, tp.recorrencia, tp.local, tt.departamento, tt.prazoentrega
+            SELECT t.idtarefa, t.prazoentrega, t.descricao, t.prioridade, t.datacriacao, t.idusuario, t.idequipe, t.idprojeto, ta.materia, ta.professor, ta.nota, tp.recorrencia, tp.local, tt.departamento, tt.prazorevisao
             FROM tarefa t
             LEFT JOIN tarefaacademica ta ON ta.idtarefa = t.idtarefa
             LEFT JOIN tarefapessoal tp ON tp.idtarefa = t.idtarefa
@@ -203,15 +206,31 @@ public class UsuarioCtrl{
                 Date prazoentrega = rs.getDate("prazoentrega");
                 String descricao = rs.getString("descricao");
                 String prioridade = rs.getString("prioridade");
-                Date prazoentrega = rs.getDate("datacriacao");
+                Date datacriacao = rs.getDate("datacriacao");
                 Usuario tUsuario = consultarUsuario(rs.getInt("idusuario"));
                 Equipe equipe = equipeDAO.consultarEquipe(rs.getInt("idequipe"));
                 Projeto projeto = projetoDAO.consultarProjeto(rs.getInt("idprojeto"));
                 
-                if(){
+                Tarefa tarefa;
+                
+                if(rs.getString("materia") != null){
+                    tarefa = new TarefaAcademica(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("materia"), rs.getString("professor"), rs.getDouble("nota"));
                     
                 }
+                else if(rs.getString("recorrencia") != null){
+                    tarefa = new TarefaPessoal(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("recorrencia"), rs.getString("local"));
+                }
+                else if(rs.getString("departamento") != null){
+                    tarefa = new TarefaTrabalho(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("departamento"), rs.getDate("datarevisao"));
+                }
+                else{
+                    tarefa = new Tarefa(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto);
+                }
+                
+                tarefas.add(tarefa);
             }
+            
+            return tarefas;
         }
         catch(SQLException sqle){
             System.out.println(sqle.getMessage());
@@ -220,7 +239,32 @@ public class UsuarioCtrl{
         return null;
     }
     
-    public Usuario consultarUsuario(int usuarioId){
+    public Usuario consultarUsuario(int idUsuario){
+        PerfilCtrl perfilDAO = new PerfilCtrl();
+        String sql = "SELECT \"idUsuario\", nome, senha, email FROM usuario WHERE \"idUsuario\" = ?";
+        
+        try{
+            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
+            pstmt.setInt(1, idUsuario);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()){
+                Usuario u = new Usuario(
+                        rs.getInt("idUsuario"),
+                        rs.getString("nome"),
+                        rs.getString("senha"),
+                        rs.getString("email"),
+                        perfilDAO.selecionar(rs.getInt("idUsuario"))
+                );
+                
+                return u;
+            }
+            
+        }
+        catch(SQLException sqle){
+            System.out.println(sqle.getMessage());
+        }
         
         return null;
     }

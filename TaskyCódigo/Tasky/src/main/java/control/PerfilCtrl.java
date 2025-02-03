@@ -86,12 +86,12 @@ public class PerfilCtrl{
         return null;
     }
     
-    public Perfil selecionar(Usuario usuario){
+    public Perfil selecionar(int idUsuario){
         String sql = "SELECT nome, descricao, funcao FROM perfil WHERE idusuario = ?";
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
-            pstmt.setInt(1, usuario.getIdUsuario());
+            pstmt.setInt(1, idUsuario);
             
             ResultSet rs = pstmt.executeQuery();
             
