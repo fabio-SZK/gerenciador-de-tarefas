@@ -65,7 +65,6 @@ public class PerfilGUI extends javax.swing.JFrame {
         rotNome.setText("jLabel2");
 
         rotDescricao.setEditable(false);
-        rotDescricao.setBackground(new java.awt.Color(242, 242, 242));
         rotDescricao.setColumns(20);
         rotDescricao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rotDescricao.setLineWrap(true);

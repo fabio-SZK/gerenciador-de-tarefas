@@ -43,8 +43,8 @@ public class TarefaPessoalCtrl {
             pstmt1.setString(4, tarefa.getPrioridade());
             pstmt1.setDate(5, new java.sql.Date(tarefa.getDataCriacao().getTime()));
             pstmt1.setInt(6, tarefa.getUsuario().getIdUsuario());
-            pstmt1.setInt(7, tarefa.getEquipe().getIdEquipe());
-            pstmt1.setInt(8, tarefa.getProjeto().getIdProjeto());
+            pstmt1.setObject(7, tarefa.getEquipe().getIdEquipe(), java.sql.Types.INTEGER);
+            pstmt1.setObject(8, tarefa.getProjeto().getIdProjeto(), java.sql.Types.INTEGER);
             
             pstmt1.execute();
             
@@ -60,7 +60,7 @@ public class TarefaPessoalCtrl {
     
     }
     
-    public void remover(TarefaTrabalho tarefa){
+    public void remover(TarefaPessoal tarefa){
         String sql = "DELETE FROM tarefa WHERE idtarefa = ?";
         
         try{
@@ -75,9 +75,9 @@ public class TarefaPessoalCtrl {
         }
     }
     
-    public void atualizar(TarefaTrabalho tarefa){
+    public void atualizar(TarefaPessoal tarefa){
         String sql1 = "UPDATE tarefa SET idtarefa = ?, prazoentrega = ?, descricao = ?, prioridade = ?, datacriacao = ?, idusuario = ?, idequipe = ?, idprojeto = ? WHERE idtarefa = ?";
-        String sql2 = "UPDATE tarefatrabalho SET idtarefa = ?, departamento = ?, prazorevisao = ? WHERE idtarefa = ?";
+        String sql2 = "UPDATE tarefapessoal SET idtarefa = ?, recorrencia = ?, local = ? WHERE idtarefa = ?";
         
         try{
             PreparedStatement pstmt1 = conexao.getConn().prepareStatement(sql1);
@@ -96,8 +96,8 @@ public class TarefaPessoalCtrl {
             pstmt1.execute();
             
             pstmt2.setInt(1, tarefa.getIdTarefa());
-            pstmt2.setString(2, tarefa.getDepartamento());
-            pstmt2.setDate(3, new java.sql.Date(tarefa.getPrazoRevisao().getTime()));
+            pstmt2.setString(2, tarefa.getRecorrencia());
+            pstmt2.setString(3, tarefa.getLocal());
             pstmt2.setInt(4, tarefa.getIdTarefa());
             
             pstmt2.execute();
@@ -107,7 +107,7 @@ public class TarefaPessoalCtrl {
         }
     }
     
-    public TarefaTrabalho consultarTarefa(int idTarefa){
+    public TarefaPessoal consultarTarefa(int idTarefa){
 
         EquipeCtrl equipeDAO = new EquipeCtrl();
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
@@ -115,9 +115,9 @@ public class TarefaPessoalCtrl {
         
         
         String sql = """
-            SELECT t.idtarefa, t.prazoentrega, t.descricao, t.prioridade, t.datacriacao, t.idusuario, t.idequipe, t.idprojeto, tt.departamento, tt.prazorevisao
+            SELECT t.idtarefa, t.prazoentrega, t.descricao, t.prioridade, t.datacriacao, t.idusuario, t.idequipe, t.idprojeto, tp.recorrencia, tp.local
             FROM tarefa t
-            LEFT JOIN tarefatrabalho tt ON tt.idtarefa = t.idtarefa
+            LEFT JOIN tarefapessoal tp ON tp.idtarefa = t.idtarefa
             WHERE t.idtarefa = ?
         """;
         
@@ -138,13 +138,11 @@ public class TarefaPessoalCtrl {
                 Equipe equipe = equipeDAO.consultarEquipe(rs.getInt("idequipe"));
                 Projeto projeto = projetoDAO.consultarProjeto(rs.getInt("idprojeto"));
                 
-                TarefaTrabalho tarefa;
+                TarefaPessoal tarefa;
                 
                 
-                tarefa = new TarefaTrabalho(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("departamento"), rs.getDate("datarevisao"));
+                tarefa = new TarefaPessoal(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("recorrencia"), rs.getString("local"));
 
-        
-                
                 return tarefa;
             }
             

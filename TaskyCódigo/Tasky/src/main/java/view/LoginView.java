@@ -13,6 +13,17 @@ import java.sql.SQLException;
  * @author Fabio
  */
 public class LoginView extends javax.swing.JFrame {
+    
+    private Usuario sessao;
+
+    public Usuario getSessao() {
+        return sessao;
+    }
+
+    public void setSessao(Usuario sessao) {
+        this.sessao = sessao;
+    }
+    
 
     /**
      * Creates new form LoginView
@@ -150,13 +161,11 @@ public class LoginView extends javax.swing.JFrame {
         String senha = cxSenha.getText();
         System.out.println(usuario);
         System.out.println(senha);
-        try{
-            UsuarioCtrl usuarioDAO = new UsuarioCtrl();
+
+        UsuarioCtrl usuarioDAO = new UsuarioCtrl();
         
-            Usuario sessao = usuarioDAO.login(usuario, senha);
-        }catch(SQLException sqle){
-            System.out.println("erroview");
-        }
+        sessao = usuarioDAO.login(usuario, senha);
+        
     }//GEN-LAST:event_btLoginActionPerformed
 
     /**

@@ -370,5 +370,9 @@ public class ProjetoCtrl{
         
         return null;
     }
+
+    public List<Projeto> getAllProjects() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
 

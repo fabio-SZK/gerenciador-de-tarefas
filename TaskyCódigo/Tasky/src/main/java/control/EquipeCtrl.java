@@ -105,7 +105,7 @@ public class EquipeCtrl{
     public Equipe consultarEquipe(int idEquipe){
         UsuarioCtrl usuarioDAO = new UsuarioCtrl();
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
-        String sql = "SELECT idequipe, idliderequipe, areaatuacao, descricao, funcao, idprojeto FROM equipe WHERE idequipe = ?";
+        String sql = "SELECT idequipe, usuarioliderid, areaatuacao, descricao, funcao, idprojeto FROM equipe WHERE idequipe = ?";
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
@@ -116,7 +116,7 @@ public class EquipeCtrl{
             while(rs.next()){
                 Equipe e = new Equipe(
                         rs.getInt("idequipe"),
-                        usuarioDAO.consultarUsuario(rs.getInt("idLiderEquipe")),
+                        usuarioDAO.consultarUsuario(rs.getInt("usuarioliderid")),
                         rs.getString("areaatuacao"),
                         rs.getString("descricao"),
                         rs.getString("funcao"),

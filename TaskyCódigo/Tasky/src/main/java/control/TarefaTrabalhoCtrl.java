@@ -107,18 +107,16 @@ public class TarefaTrabalhoCtrl {
         }
     }
     
-    public Tarefa consultarTarefa(int idTarefa){
-        List<Tarefa> tarefas = new ArrayList<>();
+    public TarefaTrabalho consultarTarefa(int idTarefa){
+
         EquipeCtrl equipeDAO = new EquipeCtrl();
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
         UsuarioCtrl usuarioDAO = new UsuarioCtrl();
         
         
         String sql = """
-            SELECT t.idtarefa, t.prazoentrega, t.descricao, t.prioridade, t.datacriacao, t.idusuario, t.idequipe, t.idprojeto, ta.materia, ta.professor, ta.nota, tp.recorrencia, tp.local, tt.departamento, tt.prazorevisao
+            SELECT t.idtarefa, t.prazoentrega, t.descricao, t.prioridade, t.datacriacao, t.idusuario, t.idequipe, t.idprojeto, tt.departamento, tt.prazorevisao
             FROM tarefa t
-            LEFT JOIN tarefaacademica ta ON ta.idtarefa = t.idtarefa
-            LEFT JOIN tarefapessoal tp ON tp.idtarefa = t.idtarefa
             LEFT JOIN tarefatrabalho tt ON tt.idtarefa = t.idtarefa
             WHERE t.idtarefa = ?
         """;
@@ -140,21 +138,12 @@ public class TarefaTrabalhoCtrl {
                 Equipe equipe = equipeDAO.consultarEquipe(rs.getInt("idequipe"));
                 Projeto projeto = projetoDAO.consultarProjeto(rs.getInt("idprojeto"));
                 
-                Tarefa tarefa;
+                TarefaTrabalho tarefa;
                 
-                if(rs.getString("materia") != null){
-                    tarefa = new TarefaAcademica(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("materia"), rs.getString("professor"), rs.getDouble("nota"));
-                    
-                }
-                else if(rs.getString("recorrencia") != null){
-                    tarefa = new TarefaPessoal(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("recorrencia"), rs.getString("local"));
-                }
-                else if(rs.getString("departamento") != null){
-                    tarefa = new TarefaTrabalho(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("departamento"), rs.getDate("datarevisao"));
-                }
-                else{
-                    tarefa = new Tarefa(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto);
-                }
+                
+                tarefa = new TarefaTrabalho(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("departamento"), rs.getDate("datarevisao"));
+
+        
                 
                 return tarefa;
             }
