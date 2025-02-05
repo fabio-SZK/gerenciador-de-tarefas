@@ -23,7 +23,7 @@ import model.Projeto;
  * @author Fabio
  */
 public class TarefaProjetoGUI extends javax.swing.JFrame {
-    int idProjeto;
+    Integer idProjeto;
 
     public int getIdProjeto() {
         return idProjeto;

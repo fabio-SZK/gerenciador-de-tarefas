@@ -112,8 +112,21 @@ public class TarefaCtrl{
                 String prioridade = rs.getString("prioridade");
                 Date datacriacao = rs.getDate("datacriacao");
                 Usuario tUsuario = usuarioDAO.consultarUsuario(rs.getInt("idusuario"));
-                Equipe equipe = equipeDAO.consultarEquipe(rs.getInt("idequipe"));
-                Projeto projeto = projetoDAO.consultarProjeto(rs.getInt("idprojeto"));
+                Equipe equipe;
+                Projeto projeto;
+                if(rs.getObject("idequipe", Integer.class) == null){
+                    equipe = new Equipe();
+                }
+                else{
+                    equipe = equipeDAO.consultarEquipe(rs.getInt("idequipe"));
+                }
+                if(rs.getObject("idprojeto", Integer.class) == null){
+                    projeto = new Projeto();
+                }
+                else{
+                    projeto = projetoDAO.consultarProjeto(rs.getInt("idprojeto"));
+                }
+
                 
                 Tarefa tarefa;
                 
@@ -125,7 +138,7 @@ public class TarefaCtrl{
                     tarefa = new TarefaPessoal(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("recorrencia"), rs.getString("local"));
                 }
                 else if(rs.getString("departamento") != null){
-                    tarefa = new TarefaTrabalho(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("departamento"), rs.getDate("datarevisao"));
+                    tarefa = new TarefaTrabalho(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("departamento"), rs.getDate("prazorevisao"));
                 }
                 else{
                     tarefa = new Tarefa(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto);

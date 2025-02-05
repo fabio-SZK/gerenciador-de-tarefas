@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import model.Projeto;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.Equipe;
 import model.Tarefa;
 import model.TarefaAcademica;
@@ -59,39 +60,68 @@ public class ProjetoCtrl{
             pstmt3.execute();
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    public void adicionarMembro(Usuario usuario, Projeto projeto){
-        String sql = "INSERT INTO projetomembro (idprojeto, idnome) VALUES (?, ?)";
+    public void adicionarMembro(String nome, Projeto projeto){
+        String sql = "INSERT INTO projetomembro (idprojeto, idusuario) VALUES (?, ?)";
+        String sqlQuery = "SELECT \"idUsuario\" FROM usuario WHERE nome = ?";
+        
         
         try{
+            PreparedStatement pstmtQuery = conexao.getConn().prepareStatement(sqlQuery);
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
             
-            pstmt.setInt(1, projeto.getIdProjeto());
-            pstmt.setInt(2, usuario.getIdUsuario());
+            pstmtQuery.setString(1, nome);
             
-            pstmt.executeUpdate();
+            ResultSet rs = pstmtQuery.executeQuery();
+            
+            while(rs.next()){
+                pstmt.setInt(1, projeto.getIdProjeto());
+                pstmt.setInt(2, rs.getInt("idUsuario"));
+            
+                pstmt.executeUpdate();
+            }
+            
         }
         catch(SQLException sqle){
-            
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+    
         }
     }
     
-        public void adicionarLider(Usuario usuario, Projeto projeto){
-        String sql = "INSERT INTO projetolider (idprojeto, idnome) VALUES (?, ?)";
+        public void adicionarLider(String nome, Projeto projeto){
+        String sql = "INSERT INTO projetolider (idprojeto, idusuario) VALUES (?, ?)";
+        String sqlQuery = "SELECT \"idUsuario\" FROM usuario WHERE nome = ?";
+        
         
         try{
+            PreparedStatement pstmtQuery = conexao.getConn().prepareStatement(sqlQuery);
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
             
-            pstmt.setInt(1, projeto.getIdProjeto());
-            pstmt.setInt(2, usuario.getIdUsuario());
+            pstmtQuery.setString(1, nome);
             
-            pstmt.executeUpdate();
+            ResultSet rs = pstmtQuery.executeQuery();
+            
+            while(rs.next()){
+                pstmt.setInt(1, projeto.getIdProjeto());
+                pstmt.setInt(2, rs.getInt("idUsuario"));
+            
+                pstmt.executeUpdate();
+            }
         }
         catch(SQLException sqle){
-            
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -119,7 +149,80 @@ public class ProjetoCtrl{
             
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void removerLider(String nome, Projeto projeto){
+        String sql = "DELETE FROM projetolider WHERE idprojeto = ? AND idusuario = ?";
+        String sqlQuery = "SELECT \"idUsuario\" FROM usuario WHERE nome = ?";
+        
+        
+        try{
+            PreparedStatement pstmtQuery = conexao.getConn().prepareStatement(sqlQuery);
+            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
+            
+            pstmtQuery.setString(1, nome);
+            
+            ResultSet rs = pstmtQuery.executeQuery();
+            
+            while(rs.next()){
+                pstmt.setInt(1, projeto.getIdProjeto());
+                pstmt.setInt(2, rs.getInt("idUsuario"));
+            
+                pstmt.executeUpdate();
+            }
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void removerMembro(String nome, Projeto projeto){
+        String sql = "DELETE FROM projetomembro WHERE idprojeto = ? AND idusuario = ?";
+        String sqlQuery = "SELECT \"idUsuario\" FROM usuario WHERE nome = ?";
+        String sqlQuery2 = "SELECT idusuario, idprojeto FROM projetolider WHERE idusuario = ? AND idprojeto = ?";
+        
+        
+        try{
+            PreparedStatement pstmtQuery = conexao.getConn().prepareStatement(sqlQuery);
+            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
+            
+            pstmtQuery.setString(1, nome);
+            
+            ResultSet rs = pstmtQuery.executeQuery();
+            
+            while(rs.next()){
+                pstmt.setInt(1, projeto.getIdProjeto());
+                pstmt.setInt(2, rs.getInt("idUsuario"));
+            
+                pstmt.executeUpdate();
+                
+                PreparedStatement pstmtQuery2 = conexao.getConn().prepareStatement(sqlQuery2);
+                
+                pstmtQuery2.setInt(1 , rs.getInt("idUsuario"));
+                pstmtQuery2.setInt(2,  projeto.getIdProjeto());
+                
+                ResultSet rs2 = pstmtQuery2.executeQuery();
+                
+                while(rs2.next()){
+                    removerLider(nome, projeto);
+                }
+            }
+            
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+    
         }
     }
     
@@ -139,7 +242,10 @@ public class ProjetoCtrl{
             pstmt.executeUpdate();
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -155,10 +261,41 @@ public class ProjetoCtrl{
             return rs;
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
         
         return null;
+    }
+    
+    public boolean verificarLider(int idUsuario, int idProjeto){
+        String sql = "SELECT idusuario, idprojeto FROM projetolider WHERE idusuario = ? AND idprojeto = ?";
+        
+        try{
+            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
+            
+            pstmt.setInt(1, idUsuario);
+            pstmt.setInt(2, idProjeto);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if(!rs.next()){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return false;
     }
     
     public Projeto consultarProjeto(int idProjeto){
@@ -185,7 +322,10 @@ public class ProjetoCtrl{
             
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
         
         return null;
@@ -225,7 +365,10 @@ public class ProjetoCtrl{
             return membros;
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
         
         return null;
@@ -264,7 +407,10 @@ public class ProjetoCtrl{
             return lideres;
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
         
         return null;
@@ -305,7 +451,10 @@ public class ProjetoCtrl{
             return equipes;
         }
         catch(SQLException sqle){
-            sqle.getMessage();
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
         
         return null;
@@ -365,7 +514,10 @@ public class ProjetoCtrl{
             return tarefas;
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
         
         return null;

@@ -13,7 +13,7 @@ import model.Usuario;
  * @author Fabio
  */
 public class PerfilGUI extends javax.swing.JFrame {
-
+    Usuario usuarioSessao;
     /**
      * Creates new form PerfilGUI
      */
@@ -30,6 +30,7 @@ public class PerfilGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btEditarPerfil = new javax.swing.JButton();
         rotTitulo = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         PnlPerfil = new javax.swing.JPanel();
@@ -37,8 +38,16 @@ public class PerfilGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         rotDescricao = new javax.swing.JTextArea();
         rotFuncao = new javax.swing.JLabel();
+        pnlEditor = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        btEditarPerfil.setText("Editar Perfil...");
+        btEditarPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarPerfilActionPerformed(evt);
+            }
+        });
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
@@ -80,6 +89,8 @@ public class PerfilGUI extends javax.swing.JFrame {
         rotFuncao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rotFuncao.setText("Função: ");
 
+        pnlEditor.setLayout(new java.awt.GridLayout(1, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,7 +111,9 @@ public class PerfilGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(rotTitulo)))
-                .addContainerGap(568, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 562, Short.MAX_VALUE)
+                .addComponent(pnlEditor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,11 +124,15 @@ public class PerfilGUI extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PnlPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(rotNome)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PnlPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pnlEditor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(rotFuncao)
                 .addGap(317, 317, 317))
@@ -124,10 +141,21 @@ public class PerfilGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarPerfilActionPerformed
+        // TODO add your handling code here:
+        System.out.println("test");
+    }//GEN-LAST:event_btEditarPerfilActionPerformed
+
     public void mostrarDadosPerfil(Perfil perfil){
         rotNome.setText(perfil.getNome());
         rotDescricao.setText(perfil.getDescricao());
         rotFuncao.setText("Função: "+perfil.getFuncao());
+        
+        if(perfil.getUsuario().getIdUsuario() == usuarioSessao.getIdUsuario()){
+            pnlEditor.add(btEditarPerfil);
+            pnlEditor.revalidate();
+            pnlEditor.repaint();
+        }
     }
     
     /**
@@ -167,10 +195,21 @@ public class PerfilGUI extends javax.swing.JFrame {
         });
     }
 
+    public Usuario getUsuarioSessao() {
+        return usuarioSessao;
+    }
+
+    public void setUsuarioSessao(Usuario usuarioSessao) {
+        this.usuarioSessao = usuarioSessao;
+    }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PnlPerfil;
+    private javax.swing.JButton btEditarPerfil;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel pnlEditor;
     private javax.swing.JTextArea rotDescricao;
     private javax.swing.JLabel rotFuncao;
     private javax.swing.JLabel rotNome;

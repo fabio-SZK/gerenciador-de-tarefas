@@ -9,9 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class PerfilCtrl{
-    private String nome;
-    private String descricao;
-    private String funcao;
+
     private ConexaoSQL conexao;
 
     public PerfilCtrl(){
@@ -87,7 +85,8 @@ public class PerfilCtrl{
     }
     
     public Perfil selecionar(int idUsuario){
-        String sql = "SELECT nome, descricao, funcao FROM perfil WHERE idusuario = ?";
+        String sql = "SELECT nome, descricao, funcao, idusuario FROM perfil WHERE idusuario = ?";
+        UsuarioCtrl usuarioDAO = new UsuarioCtrl();
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
@@ -105,6 +104,8 @@ public class PerfilCtrl{
                 perfil.setNome(nome);
                 perfil.setDescricao(descricao);
                 perfil.setFuncao(funcao);
+                perfil.setUsuario(new Usuario());
+                perfil.getUsuario().setIdUsuario(rs.getInt("idusuario"));
                 
                 return perfil;
             }
