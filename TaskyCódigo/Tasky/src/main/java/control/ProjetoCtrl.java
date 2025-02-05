@@ -3,6 +3,7 @@ package control;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import model.Projeto;
 import java.util.Date;
@@ -16,13 +17,7 @@ import model.TarefaTrabalho;
 import model.Usuario;
 
 public class ProjetoCtrl{
-    private String nome;
-    private String descricao;
-    private Date dataCriacao;
-    private Date dataUltima;
-    private String liderProjeto;
-    private int idProjeto;
-    private String objetivo;
+
     private ConexaoSQL conexao;
 
     public ProjetoCtrl(){
@@ -31,33 +26,39 @@ public class ProjetoCtrl{
     }
 
     public void adicionar(Usuario usuario, Projeto projeto){
-        String sql1 = "INSERT INTO projeto (idprojeto, nome, descricao, datacriacao, dataultima, objetivo) VALUES (?, ?, ?, ?, ?, ?)";
-        String sql2 = "INSERT INTO projetolider (idprojeto, idnome) VALUES (?, ?)";
-        String sql3 = "INSERT INTO projetomembro (idprojeto, idnome) VALUES (?, ?)";
+        String sql1 = "INSERT INTO projeto (nome, descricao, datacriacao, dataultima, objetivo) VALUES (?, ?, ?, ?, ?)";
+        String sql2 = "INSERT INTO projetolider (idprojeto, idusuario) VALUES (?, ?)";
+        String sql3 = "INSERT INTO projetomembro (idprojeto, idusuario) VALUES (?, ?)";
         
         try{
-            PreparedStatement pstmt1 = conexao.getConn().prepareStatement(sql1);
+            PreparedStatement pstmt1 = conexao.getConn().prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
             PreparedStatement pstmt2 = conexao.getConn().prepareStatement(sql2);
             PreparedStatement pstmt3 = conexao.getConn().prepareStatement(sql3);
             
-            pstmt1.setInt(1, projeto.getIdProjeto());
-            pstmt1.setString(2, projeto.getNome());
-            pstmt1.setString(3, projeto.getDescricao());
-            pstmt1.setDate(4, projeto.getDataCriacao());
-            pstmt1.setDate(5, projeto.getDataUltima());
-            pstmt1.setString(6, projeto.getObjetivo());
+            pstmt1.setString(1, projeto.getNome());
+            pstmt1.setString(2, projeto.getDescricao());
+            pstmt1.setDate(3, projeto.getDataCriacao());
+            pstmt1.setDate(4, projeto.getDataUltima());
+            pstmt1.setString(5, projeto.getObjetivo());
             
-            pstmt1.execute();
+            pstmt1.executeUpdate();
             
-            pstmt2.setInt(1, projeto.getIdProjeto());
-            pstmt2.setInt(2, usuario.getIdUsuario());
+            ResultSet rs = pstmt1.getGeneratedKeys();
             
-            pstmt2.execute();
+            if(rs.next()){
+                Integer idProjeto = rs.getInt(1);
             
-            pstmt3.setInt(1, projeto.getIdProjeto());
-            pstmt3.setInt(2, usuario.getIdUsuario());
             
-            pstmt3.execute();
+                pstmt2.setInt(1, idProjeto);
+                pstmt2.setInt(2, usuario.getIdUsuario());
+            
+                pstmt2.execute();
+            
+                pstmt3.setInt(1, idProjeto);
+                pstmt3.setInt(2, usuario.getIdUsuario());
+                
+                pstmt3.execute();
+            }
         }
         catch(SQLException sqle){
             JOptionPane.showMessageDialog(null,

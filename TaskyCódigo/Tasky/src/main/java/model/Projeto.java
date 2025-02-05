@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Projeto {
-    private int idProjeto;
+    private Integer idProjeto;
     private String nome;
     private String descricao;
     private Date dataCriacao;
@@ -17,7 +17,7 @@ public class Projeto {
     private List<Equipe> equipesProjeto;
     private List<Tarefa> listaTarefasProjeto;
 
-    public Projeto(int idProjeto, String nome, String descricao, Date dataCriacao, Date dataUltima, List<Usuario> liderProjeto, String objetivo, List<Usuario> membrosProjeto, List<Equipe> equipesProjeto, List<Tarefa> listaTarefasProjeto) {
+    public Projeto(Integer idProjeto, String nome, String descricao, Date dataCriacao, Date dataUltima, List<Usuario> liderProjeto, String objetivo, List<Usuario> membrosProjeto, List<Equipe> equipesProjeto, List<Tarefa> listaTarefasProjeto) {
         this.idProjeto = idProjeto;
         this.nome = nome;
         this.descricao = descricao;
@@ -30,7 +30,7 @@ public class Projeto {
         this.listaTarefasProjeto = listaTarefasProjeto;
     }
 
-    public Projeto(int idProjeto, String nome, String descricao, Date dataCriacao, Date dataUltima, String objetivo) {
+    public Projeto(Integer idProjeto, String nome, String descricao, Date dataCriacao, Date dataUltima, String objetivo) {
         this.idProjeto = idProjeto;
         this.nome = nome;
         this.descricao = descricao;
@@ -46,7 +46,7 @@ public class Projeto {
     
     
     public Projeto() {
-        idProjeto = 0;
+        idProjeto = null;
         nome = "";
         descricao = "";
         dataCriacao = new Date(0);
@@ -98,11 +98,11 @@ public class Projeto {
         this.liderProjeto = liderProjeto;
     }
 
-    public int getIdProjeto() {
+    public Integer getIdProjeto() {
         return idProjeto;
     }
 
-    public void setIdProjeto(int idProjeto) {
+    public void setIdProjeto(Integer idProjeto) {
         this.idProjeto = idProjeto;
     }
 

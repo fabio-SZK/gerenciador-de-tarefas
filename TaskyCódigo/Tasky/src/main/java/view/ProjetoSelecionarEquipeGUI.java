@@ -5,7 +5,7 @@
 package view;
 
 import control.GUIController;
-import control.UsuarioCtrl;
+import control.ProjetoCtrl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,46 +15,58 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import model.Projeto;
+import model.Equipe;
 
 /**
  *
  * @author Fabio
  */
-public class TarefaProjetoGUI extends javax.swing.JFrame {
-    Integer idUsuario;
+public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
     Integer idProjeto;
+    Integer idEquipe;
     GUIController guiController;
-    
-    public int getIdUsuario() {
-        return idUsuario;
+
+    public int getIdProjeto() {
+        return idProjeto;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdProjeto(int idProjeto) {
+        this.idProjeto = idProjeto;
+    }
+
+    public Integer getIdEquipe() {
+        return idEquipe;
+    }
+
+    public void setIdEquipe(Integer idEquipe) {
+        this.idEquipe = idEquipe;
     }
 
     
     
     /**
      * Creates new form TarefaProjetoGUI
-     * @param idUsuario
+     * @param idProjeto
      */
-    public TarefaProjetoGUI(GUIController guiController, Integer idUsuario) {
-        this.idUsuario = idUsuario;
+    public ProjetoSelecionarEquipeGUI(GUIController guiController, Integer idProjeto) {
+        this.idProjeto = idProjeto;
         this.guiController = guiController;
-        
+                
         initComponents();
         
-        // Fetch projects from database
-        UsuarioCtrl projectDAO = new UsuarioCtrl();
-        List<Projeto> projects = projectDAO.consultarProjetos(idUsuario);
 
-        // Add each project to the content panel
-        for (Projeto project : projects) {
-            pnlProjetos.add(createProjectBlock(project));
+        ProjetoCtrl projetoDAO = new ProjetoCtrl();
+        List<Equipe> equipes = projetoDAO.consultarEquipes(idProjeto);
+
+
+        for (Equipe equipe : equipes) {
+            pnlEquipes.add(createTeamBlock(equipe));
         }
+        
+        pnlEquipes.revalidate();
+        pnlEquipes.repaint();
     }
 
     /**
@@ -69,18 +81,23 @@ public class TarefaProjetoGUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         pnlScrl = new javax.swing.JScrollPane();
-        pnlProjetos = new javax.swing.JPanel();
+        pnlEquipes = new javax.swing.JPanel();
 
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton2.setText("Selecionar");
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         pnlScrl.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        pnlProjetos.setLayout(new javax.swing.BoxLayout(pnlProjetos, javax.swing.BoxLayout.Y_AXIS));
-        pnlScrl.setViewportView(pnlProjetos);
+        pnlEquipes.setLayout(new javax.swing.BoxLayout(pnlEquipes, javax.swing.BoxLayout.Y_AXIS));
+        pnlScrl.setViewportView(pnlEquipes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,6 +126,11 @@ public class TarefaProjetoGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -126,44 +148,47 @@ public class TarefaProjetoGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TarefaProjetoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjetoSelecionarEquipeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TarefaProjetoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjetoSelecionarEquipeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TarefaProjetoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjetoSelecionarEquipeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TarefaProjetoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjetoSelecionarEquipeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TarefaProjetoGUI(new GUIController(), 2).setVisible(true);
+                new ProjetoSelecionarEquipeGUI(new GUIController() ,2).setVisible(true);
             }
         });
     }
 
-    private JPanel createProjectBlock(Projeto projeto) {
+    private JPanel createTeamBlock(Equipe equipe) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setBackground(Color.WHITE);
-        panel.setPreferredSize(new Dimension(600, 80));
+        panel.setPreferredSize(new Dimension(350, 100));
         panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
-        JLabel rotNome = new JLabel(projeto.getNome());
-        rotNome.setFont(new Font("Arial", Font.BOLD, 16));
-
-        JLabel rotDescricao = new JLabel("<html><i>" + projeto.getDescricao() + "</i></html>");
-        rotDescricao.setFont(new Font("Arial", Font.PLAIN, 12));
+        JLabel rotDescricao = new JLabel("<html><i>" + equipe.getDescricao() + "</i></html>");
+        rotDescricao.setFont(new Font("Arial", Font.BOLD, 16));
+        
+        JLabel rotFuncao = new JLabel("<html><i> Função: " + equipe.getFuncao() + "</i></html>");
+        rotFuncao.setFont(new Font("Arial", Font.PLAIN, 12));
 
         JButton btDetalhes = new JButton("Selecionar");
-        btDetalhes.addActionListener(e -> selecionarProjeto(projeto.getIdProjeto()));
+        btDetalhes.addActionListener(e -> JOptionPane.showMessageDialog(null, "Equipe: " + equipe.getDescricao()));
 
-        JPanel pnlTexto = new JPanel(new GridLayout(2, 1));
+        JPanel pnlTexto = new JPanel(new GridLayout(2, 2));
         pnlTexto.setBackground(Color.WHITE);
-        pnlTexto.add(rotNome);
         pnlTexto.add(rotDescricao);
+        pnlTexto.add(rotFuncao);
 
         panel.add(pnlTexto, BorderLayout.CENTER);
         panel.add(btDetalhes, BorderLayout.EAST);
@@ -171,16 +196,16 @@ public class TarefaProjetoGUI extends javax.swing.JFrame {
         return panel;
     }
     
-    public void selecionarProjeto(int idProjeto){
-        this.idProjeto = idProjeto;
-        guiController.setIdProjeto(idProjeto);
+    public void selecionarEquipe(int idEquipe){
+        this.idEquipe = idEquipe;
+        guiController.setIdEquipe(idEquipe);
         dispose();
     }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JPanel pnlProjetos;
+    private javax.swing.JPanel pnlEquipes;
     private javax.swing.JScrollPane pnlScrl;
     // End of variables declaration//GEN-END:variables
 }

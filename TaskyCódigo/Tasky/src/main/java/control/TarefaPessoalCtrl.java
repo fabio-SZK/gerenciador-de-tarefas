@@ -7,14 +7,11 @@ package control;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
-import java.util.List;
 import model.Equipe;
 import model.Projeto;
-import model.Tarefa;
-import model.TarefaAcademica;
 import model.TarefaPessoal;
-import model.TarefaTrabalho;
 import model.Usuario;
 
 /**
@@ -30,29 +27,35 @@ public class TarefaPessoalCtrl {
     }
     
       public void adicionar(TarefaPessoal tarefa){
-        String sql1 = "INSERT INTO tarefa (idtarefa, prazoentrega, descricao, prioridade, datacriacao, idusuario, idequipe, idprojeto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql1 = "INSERT INTO tarefa (prazoentrega, descricao, prioridade, datacriacao, idusuario, idequipe, idprojeto) VALUES (?, ?, ?, ?, ?, ?, ?)";
         String sql2 = "INSERT INTO tarefapessoal (idtarefa, recorrencia, local) VALUES (?, ?, ?)";
         
         try{
-            PreparedStatement pstmt1 = conexao.getConn().prepareStatement(sql1);
+            PreparedStatement pstmt1 = conexao.getConn().prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
             PreparedStatement pstmt2 = conexao.getConn().prepareStatement(sql2);    
             
-            pstmt1.setInt(1, tarefa.getIdTarefa());
-            pstmt1.setDate(2, new java.sql.Date(tarefa.getPrazoEntrega().getTime()));
-            pstmt1.setString(3, tarefa.getDescricao());
-            pstmt1.setString(4, tarefa.getPrioridade());
-            pstmt1.setDate(5, new java.sql.Date(tarefa.getDataCriacao().getTime()));
-            pstmt1.setInt(6, tarefa.getUsuario().getIdUsuario());
-            pstmt1.setObject(7, tarefa.getEquipe().getIdEquipe(), java.sql.Types.INTEGER);
-            pstmt1.setObject(8, tarefa.getProjeto().getIdProjeto(), java.sql.Types.INTEGER);
+
+            pstmt1.setDate(1, new java.sql.Date(tarefa.getPrazoEntrega().getTime()));
+            pstmt1.setString(2, tarefa.getDescricao());
+            pstmt1.setString(3, tarefa.getPrioridade());
+            pstmt1.setDate(4, new java.sql.Date(tarefa.getDataCriacao().getTime()));
+            pstmt1.setInt(5, tarefa.getUsuario().getIdUsuario());
+            pstmt1.setObject(6, tarefa.getEquipe().getIdEquipe(), java.sql.Types.INTEGER);
+            pstmt1.setObject(7, tarefa.getProjeto().getIdProjeto(), java.sql.Types.INTEGER);
             
-            pstmt1.execute();
+            pstmt1.executeUpdate();
             
-            pstmt2.setInt(1, tarefa.getIdTarefa());
-            pstmt2.setString(2, tarefa.getRecorrencia());
-            pstmt2.setString(3, tarefa.getLocal());
+            ResultSet rs = pstmt1.getGeneratedKeys();
             
-            pstmt2.execute();
+            if(rs.next()){
+                int idTarefa = rs.getInt(1);
+            
+                pstmt2.setInt(1, idTarefa);
+                pstmt2.setString(2, tarefa.getRecorrencia());
+                pstmt2.setString(3, tarefa.getLocal());
+            
+                pstmt2.execute();
+            }
         }
         catch(SQLException sqle){
             System.out.println(sqle.getMessage());

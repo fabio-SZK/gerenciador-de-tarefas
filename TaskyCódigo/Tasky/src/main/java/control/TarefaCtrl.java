@@ -22,20 +22,19 @@ public class TarefaCtrl{
     }
 
     public void adicionar(Tarefa tarefa){
-        String sql = "INSERT INTO tarefa (idtarefa, prazoentrega, descricao, prioridade, datacriacao, idusuario, idequipe, idprojeto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tarefa (prazoentrega, descricao, prioridade, datacriacao, idusuario, idequipe, idprojeto) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
 
             
-            pstmt.setInt(1, tarefa.getIdTarefa());
-            pstmt.setDate(2, new java.sql.Date(tarefa.getPrazoEntrega().getTime()));
-            pstmt.setString(3, tarefa.getDescricao());
-            pstmt.setString(4, tarefa.getPrioridade());
-            pstmt.setDate(5, new java.sql.Date(tarefa.getDataCriacao().getTime()));
-            pstmt.setInt(6, tarefa.getUsuario().getIdUsuario());
-            pstmt.setInt(7, tarefa.getEquipe().getIdEquipe());
-            pstmt.setInt(8, tarefa.getProjeto().getIdProjeto());
+            pstmt.setDate(1, new java.sql.Date(tarefa.getPrazoEntrega().getTime()));
+            pstmt.setString(2, tarefa.getDescricao());
+            pstmt.setString(3, tarefa.getPrioridade());
+            pstmt.setDate(4, new java.sql.Date(tarefa.getDataCriacao().getTime()));
+            pstmt.setInt(5, tarefa.getUsuario().getIdUsuario());
+            pstmt.setObject(6, tarefa.getEquipe().getIdEquipe(), java.sql.Types.INTEGER);
+            pstmt.setObject(7, tarefa.getProjeto().getIdProjeto(), java.sql.Types.INTEGER);
             
             pstmt.execute();
         }

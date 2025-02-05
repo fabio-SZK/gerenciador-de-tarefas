@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public class Equipe {
-    private int idEquipe;
+    private Integer idEquipe;
     private Usuario liderEquipe;
     private String areaAtuacao;
     private String descricao;
@@ -16,7 +16,7 @@ public class Equipe {
     private List<Usuario> membros;
     private List<Tarefa> listaTarefasEquipe;
 
-    public Equipe(int idEquipe, Usuario liderEquipe, String areaAtuacao, String descricao, String funcao, Projeto projeto, List<Usuario> membros, List<Tarefa> listaTarefasEquipe) {
+    public Equipe(Integer idEquipe, Usuario liderEquipe, String areaAtuacao, String descricao, String funcao, Projeto projeto, List<Usuario> membros, List<Tarefa> listaTarefasEquipe) {
         this.idEquipe = idEquipe;
         this.liderEquipe = liderEquipe;
         this.areaAtuacao = areaAtuacao;
@@ -27,7 +27,7 @@ public class Equipe {
         this.listaTarefasEquipe = listaTarefasEquipe;
     }
 
-    public Equipe(int idEquipe, Usuario liderEquipe, String areaAtuacao, String descricao, String funcao, Projeto projeto) {
+    public Equipe(Integer idEquipe, Usuario liderEquipe, String areaAtuacao, String descricao, String funcao, Projeto projeto) {
         this.idEquipe = idEquipe;
         this.liderEquipe = liderEquipe;
         this.areaAtuacao = areaAtuacao;
@@ -41,7 +41,7 @@ public class Equipe {
     
 
     public Equipe() {
-        idEquipe = 0;
+        idEquipe = null;
         liderEquipe = new Usuario();
         areaAtuacao = "";
         descricao = "";
@@ -77,11 +77,11 @@ public class Equipe {
         this.descricao = descricao;
     }
 
-    public int getIdEquipe() {
+    public Integer getIdEquipe() {
         return idEquipe;
     }
 
-    public void setIdEquipe(int idEquipe) {
+    public void setIdEquipe(Integer idEquipe) {
         this.idEquipe = idEquipe;
     }
 

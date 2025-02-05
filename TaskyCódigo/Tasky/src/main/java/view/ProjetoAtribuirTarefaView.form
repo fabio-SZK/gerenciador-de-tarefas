@@ -110,12 +110,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="rotDescricao" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jScrollPane1" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="cxPrazoEntrega" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                  <Component id="btSelecionarProjeto" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="btSelecionarUsuario" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btSelecionarEquipe" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <Component id="jScrollPane1" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="39" max="32767" attributes="0"/>
@@ -152,9 +155,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cxPrazoEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btSelecionarProjeto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btSelecionarUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <Component id="btSelecionarEquipe" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="rotPrioridade" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="rotTipo" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -164,7 +169,7 @@
                   <Component id="ComboBoxPrioridade" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="comboBoxTipo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="40" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btEnviar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btLimpar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -246,12 +251,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btLimparActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btSelecionarProjeto">
+    <Component class="javax.swing.JButton" name="btSelecionarUsuario">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Selecionar projeto*..."/>
+        <Property name="text" type="java.lang.String" value="Selecionar Usuario..."/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSelecionarProjetoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSelecionarUsuarioActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="pnlTipo">
@@ -285,6 +290,14 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="btSelecionarEquipe">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Selecionar Equipe..."/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSelecionarEquipeActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -4,16 +4,38 @@
  */
 package view;
 
+import control.DateConverter;
+import control.GUIController;
+import control.ProjetoCtrl;
+import java.sql.Date;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+import model.Projeto;
+import model.Usuario;
+
 /**
  *
  * @author Fabio
  */
 public class ProjetoView extends javax.swing.JFrame {
+    private Usuario usuarioSessao;
+    private GUIController guiController;
 
+    public Usuario getUsuarioSessao() {
+        return usuarioSessao;
+    }
+
+    public void setUsuarioSessao(Usuario usuarioSessao) {
+        this.usuarioSessao = usuarioSessao;
+    }
+    
+    
     /**
      * Creates new form ProjetoView
+     * @param guiController
      */
-    public ProjetoView() {
+    public ProjetoView(GUIController guiController) {
+        this.guiController = guiController;
         initComponents();
     }
 
@@ -28,18 +50,18 @@ public class ProjetoView extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        rotNome = new javax.swing.JLabel();
+        rotDescricao = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        rotPrazo = new javax.swing.JLabel();
+        rotObjetivo = new javax.swing.JLabel();
+        btEnviar = new javax.swing.JButton();
+        btLimpar = new javax.swing.JButton();
+        cxNome = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        cxDescricao = new javax.swing.JTextArea();
+        cxPrazo = new javax.swing.JTextField();
+        cxObjetivo = new javax.swing.JTextField();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -47,21 +69,31 @@ public class ProjetoView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Nome do projeto:");
+        rotNome.setText("Nome do projeto:");
 
-        jLabel2.setText("Descrição:");
+        rotDescricao.setText("Descrição:");
 
-        jLabel4.setText("Data limite:");
+        rotPrazo.setText("Data limite:");
 
-        jLabel5.setText("Objetivo:");
+        rotObjetivo.setText("Objetivo:");
 
-        jButton1.setText("Enviar");
+        btEnviar.setText("Enviar");
+        btEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEnviarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Limpar");
+        btLimpar.setText("Limpar");
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        cxDescricao.setColumns(20);
+        cxDescricao.setRows(5);
+        jScrollPane2.setViewportView(cxDescricao);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,52 +106,52 @@ public class ProjetoView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton2)
+                                .addComponent(btLimpar)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1))
+                                .addComponent(btEnviar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
+                                    .addComponent(rotNome)
+                                    .addComponent(rotDescricao)
                                     .addComponent(jLabel3))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cxNome, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(rotPrazo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rotObjetivo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cxObjetivo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cxPrazo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 210, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(rotNome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cxNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(rotDescricao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)))
+                            .addComponent(btEnviar)
+                            .addComponent(btLimpar)))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rotPrazo, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cxPrazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)
+                        .addComponent(rotObjetivo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cxObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25)
                         .addComponent(jLabel3)
                         .addGap(0, 37, Short.MAX_VALUE)))
@@ -128,6 +160,41 @@ public class ProjetoView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        limpar();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
+        LocalDate localDate = LocalDate.now();
+        Date dataCriacao = Date.valueOf(localDate);
+        Projeto projeto;
+        // adicionar projeto pelo controller depois
+
+        try{
+            String nome = cxNome.getText();
+            String descricao = cxDescricao.getText();
+            Date prazoEntrega = DateConverter.convertToSqlDate(cxPrazo.getText());
+            String objetivo = cxObjetivo.getText();
+            projeto = new Projeto(null, nome, descricao, dataCriacao, prazoEntrega, objetivo);
+
+            ProjetoCtrl projetoDAO = new ProjetoCtrl();
+            projetoDAO.adicionar(usuarioSessao, projeto);
+        }
+        catch(NumberFormatException nfe){
+                JOptionPane.showMessageDialog(null,
+                "Formato de valor inválido",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        catch(Exception e){
+                JOptionPane.showMessageDialog(null,
+                "Formato de valor inválido",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btEnviarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,25 +226,31 @@ public class ProjetoView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProjetoView().setVisible(true);
+                new ProjetoView(new GUIController()).setVisible(true);
             }
         });
     }
-
+    
+    private void limpar() {
+        cxNome.setText("");
+        cxDescricao.setText("");
+        cxPrazo.setText("");
+        cxObjetivo.setText("");
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btEnviar;
+    private javax.swing.JButton btLimpar;
+    private javax.swing.JTextArea cxDescricao;
+    private javax.swing.JTextField cxNome;
+    private javax.swing.JTextField cxObjetivo;
+    private javax.swing.JTextField cxPrazo;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel rotDescricao;
+    private javax.swing.JLabel rotNome;
+    private javax.swing.JLabel rotObjetivo;
+    private javax.swing.JLabel rotPrazo;
     // End of variables declaration//GEN-END:variables
 }

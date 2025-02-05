@@ -5,7 +5,6 @@
 package view;
 
 import control.ProjetoCtrl;
-import control.UsuarioCtrl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.Equipe;
+import model.Projeto;
 import model.Tarefa;
 import model.Usuario;
 
@@ -26,7 +26,8 @@ import model.Usuario;
  * @author Fabio
  */
 public class ProjetoViewerGUI extends javax.swing.JFrame {
-
+    
+    private Projeto projeto;
     /**
      * Creates new form ProjetoManagerGUI
      */
@@ -88,6 +89,11 @@ public class ProjetoViewerGUI extends javax.swing.JFrame {
         pnlScrlLista2 = new javax.swing.JScrollPane();
         pnlEquipes = new javax.swing.JPanel();
         rotUsuarios = new javax.swing.JLabel();
+        rotObjetivo = new javax.swing.JLabel();
+        rotPrazo = new javax.swing.JLabel();
+        rotDataCriacao = new javax.swing.JLabel();
+        rotDescricao = new javax.swing.JLabel();
+        rotNome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,12 +130,34 @@ public class ProjetoViewerGUI extends javax.swing.JFrame {
         rotUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rotUsuarios.setText("Usuarios:");
 
+        rotObjetivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rotObjetivo.setText("Objetivo:");
+
+        rotPrazo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rotPrazo.setText("Prazo:");
+
+        rotDataCriacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rotDataCriacao.setText("Data de criação:");
+
+        rotDescricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rotDescricao.setText("jLabel1");
+
+        rotNome.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        rotNome.setText("Projeto:");
+
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
-                .addContainerGap(362, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(rotDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rotDataCriacao)
+                    .addComponent(rotPrazo)
+                    .addComponent(rotObjetivo)
+                    .addComponent(rotNome, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rotEquipes)
                     .addComponent(pnlScrlLista2, javax.swing.GroupLayout.PREFERRED_SIZE, 813, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,15 +175,26 @@ public class ProjetoViewerGUI extends javax.swing.JFrame {
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addGap(64, 64, 64)
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                            .addComponent(rotUsuarios)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(pnlScrlLista, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                            .addComponent(rotTarefas)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(pnlScrlLista1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addComponent(rotUsuarios)
+                        .addComponent(rotNome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlScrlLista, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addComponent(rotTarefas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlScrlLista1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(rotDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(rotDataCriacao)
+                        .addGap(18, 18, 18)
+                        .addComponent(rotPrazo)
+                        .addGap(18, 18, 18)
+                        .addComponent(rotObjetivo)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
                 .addComponent(rotEquipes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -237,12 +276,26 @@ public class ProjetoViewerGUI extends javax.swing.JFrame {
         panel.setBackground(Color.WHITE);
         panel.setPreferredSize(new Dimension(350, 100));
         panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        
+        ProjetoCtrl projetoDAO = new ProjetoCtrl();
 
         JLabel rotNome = new JLabel("<html><i>" + usuario.getNome() + "</i></html>");
         rotNome.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel rotPerfilNome = new JLabel("<html><i>" + usuario.getPerfilUsuario().getNome() + "</i></html>");
         rotPerfilNome.setFont(new Font("Arial", Font.PLAIN, 12));
+        
+        JLabel rotIdUsuario = new JLabel("<html><i>ID: " + usuario.getIdUsuario() + "</i></html>");
+        rotIdUsuario.setFont(new Font("Arial", Font.BOLD, 16));
+        
+        JLabel rotLider;
+        
+        if(projetoDAO.verificarLider(usuario.getIdUsuario(), projeto.getIdProjeto())){
+            rotLider = new JLabel("<html><i>Líder</i></html>");
+        }
+        else{
+            rotLider = new JLabel("");
+        }
         
         JButton btDetalhes = new JButton("Detalhes");
         btDetalhes.addActionListener(e -> JOptionPane.showMessageDialog(null, "Usuario: " + usuario.getNome()));
@@ -251,6 +304,8 @@ public class ProjetoViewerGUI extends javax.swing.JFrame {
         pnlTexto.setBackground(Color.WHITE);
         pnlTexto.add(rotNome);
         pnlTexto.add(rotPerfilNome);
+        pnlTexto.add(rotIdUsuario);
+        pnlTexto.add(rotLider);
 
         panel.add(pnlTexto, BorderLayout.CENTER);
         panel.add(btDetalhes, BorderLayout.EAST);
@@ -316,6 +371,14 @@ public class ProjetoViewerGUI extends javax.swing.JFrame {
         return panel;
     }
     
+    public void preencherDados(){
+        rotNome.setText("<html><i>Projeto: " + projeto.getNome() + "</i></html>");
+        rotDescricao.setText("<html><i>" + projeto.getDescricao() + "</i></html>");
+        rotDataCriacao.setText("Data de criação: " + projeto.getDataCriacao().toString());
+        rotPrazo.setText("Prazo: " + projeto.getDataUltima().toString());
+        rotObjetivo.setText("Objetivo: " + projeto.getObjetivo());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -326,7 +389,12 @@ public class ProjetoViewerGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane pnlScrlLista2;
     private javax.swing.JPanel pnlTarefas;
     private javax.swing.JPanel pnlUsuarios;
+    private javax.swing.JLabel rotDataCriacao;
+    private javax.swing.JLabel rotDescricao;
     private javax.swing.JLabel rotEquipes;
+    private javax.swing.JLabel rotNome;
+    private javax.swing.JLabel rotObjetivo;
+    private javax.swing.JLabel rotPrazo;
     private javax.swing.JLabel rotTarefas;
     private javax.swing.JLabel rotTitulo;
     private javax.swing.JLabel rotUsuarios;
