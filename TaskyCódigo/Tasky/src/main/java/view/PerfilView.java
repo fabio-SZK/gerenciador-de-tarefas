@@ -4,12 +4,15 @@
  */
 package view;
 
+import model.Usuario;
+
 /**
  *
  * @author Fabio
  */
 public class PerfilView extends javax.swing.JFrame {
-
+    private Usuario usuarioSessao;
+    private GUIController guiController;
     /**
      * Creates new form PerfilView
      */
