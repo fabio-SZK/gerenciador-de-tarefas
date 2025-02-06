@@ -363,6 +363,7 @@ public class ProjetoCtrl{
                 membros.add(u);
             }
             
+            perfilDAO.getConexao().getConn().close(); //
             return membros;
         }
         catch(SQLException sqle){
@@ -405,6 +406,8 @@ public class ProjetoCtrl{
                 lideres.add(u);
             }
             
+            perfilDAO.getConexao().getConn().close();
+            
             return lideres;
         }
         catch(SQLException sqle){
@@ -445,6 +448,9 @@ public class ProjetoCtrl{
                         rs.getString("funcao"),
                         projetoDAO.consultarProjeto(rs.getInt("idprojeto"))
                 );
+                
+                projetoDAO.getConexao().getConn().close();
+                usuarioDAO.getConexao().getConn().close();
                 
                 equipes.add(e);
             }
@@ -503,7 +509,7 @@ public class ProjetoCtrl{
                     tarefa = new TarefaPessoal(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("recorrencia"), rs.getString("local"));
                 }
                 else if(rs.getString("departamento") != null){
-                    tarefa = new TarefaTrabalho(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("departamento"), rs.getDate("datarevisao"));
+                    tarefa = new TarefaTrabalho(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("departamento"), rs.getDate("prazorevisao"));
                 }
                 else{
                     tarefa = new Tarefa(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto);
@@ -511,6 +517,10 @@ public class ProjetoCtrl{
                 
                 tarefas.add(tarefa);
             }
+            
+            equipeDAO.getConexao().getConn().close(); //
+            projetoDAO.getConexao().getConn().close(); //
+            usuarioDAO.getConexao().getConn().close(); //
             
             return tarefas;
         }
@@ -527,5 +537,15 @@ public class ProjetoCtrl{
     public List<Projeto> getAllProjects() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    public ConexaoSQL getConexao() {
+        return conexao;
+    }
+
+    public void setConexao(ConexaoSQL conexao) {
+        this.conexao = conexao;
+    }
+    
+    
 }
 

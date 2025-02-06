@@ -6,12 +6,12 @@ package view;
 
 import control.DateConverter;
 import control.GUIController;
-import control.ProjetoCtrl;
 import control.TarefaAcademicaCtrl;
 import control.TarefaCtrl;
 import control.TarefaPessoalCtrl;
 import control.TarefaTrabalhoCtrl;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import model.Equipe;
@@ -26,25 +26,31 @@ import model.Usuario;
  *
  * @author Fabio
  */
-public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
+public class TarefaEditorView extends javax.swing.JFrame {
     private Usuario usuarioSessao;
-    private Projeto projeto;
     private GUIController guiController;
+    private Tarefa tarefa;
     /**
      * Creates new form TarefaView
      * @param guiController
-     * @param idProjeto
-
+     * @param idTarefa
      */
-    public ProjetoAtribuirTarefaView(GUIController guiController, Integer idProjeto) {
-
+    public TarefaEditorView(GUIController guiController, Integer idTarefa) {
         this.guiController = guiController;
-        
-        ProjetoCtrl projetoDAO = new ProjetoCtrl();
-        projeto = projetoDAO.consultarProjeto(idProjeto);
-        
-        
         initComponents();
+        
+        TarefaCtrl tarefaDAO = new TarefaCtrl();
+        
+        this.tarefa = tarefaDAO.consultarTarefa(idTarefa);
+        try{
+            tarefaDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -80,11 +86,10 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
         ComboBoxPrioridade = new javax.swing.JComboBox<>();
         btEnviar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
-        btSelecionarUsuario = new javax.swing.JButton();
+        btSelecionarProjeto = new javax.swing.JButton();
         pnlTipo = new javax.swing.JPanel();
         rotTipo = new javax.swing.JLabel();
         comboBoxTipo = new javax.swing.JComboBox<>();
-        btSelecionarEquipe = new javax.swing.JButton();
 
         rotLocal.setText("Local:");
 
@@ -145,10 +150,10 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
             }
         });
 
-        btSelecionarUsuario.setText("Selecionar Usuario...");
-        btSelecionarUsuario.addActionListener(new java.awt.event.ActionListener() {
+        btSelecionarProjeto.setText("Selecionar projeto*...");
+        btSelecionarProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btSelecionarUsuarioActionPerformed(evt);
+                btSelecionarProjetoActionPerformed(evt);
             }
         });
 
@@ -160,13 +165,6 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
         comboBoxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxTipoActionPerformed(evt);
-            }
-        });
-
-        btSelecionarEquipe.setText("Selecionar Equipe...");
-        btSelecionarEquipe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btSelecionarEquipeActionPerformed(evt);
             }
         });
 
@@ -194,13 +192,11 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rotDescricao)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(cxPrazoEntrega)
                                     .addGap(19, 19, 19)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btSelecionarUsuario)
-                                        .addComponent(btSelecionarEquipe)))))
+                                    .addComponent(btSelecionarProjeto))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(pnlTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
@@ -228,9 +224,7 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cxPrazoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btSelecionarUsuario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(btSelecionarEquipe)
+                    .addComponent(btSelecionarProjeto))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rotPrioridade)
@@ -239,7 +233,7 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ComboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(1, 1, 1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btEnviar)
                     .addComponent(btLimpar))
@@ -280,20 +274,21 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
         LocalDate localDate = LocalDate.now();
         Date dataCriacao = Date.valueOf(localDate);
         
-        Equipe equipe = new Equipe(); // adicionar equipe pelo controller
-        equipe.setIdEquipe(guiController.getIdEquipe());
-        
-        Usuario usuario = new Usuario();
-        usuario.setIdUsuario(guiController.getIdUsuario());
+        Projeto projeto = new Projeto();
+        projeto.setIdProjeto(guiController.getIdProjeto());
+        Equipe equipe = new Equipe();
+        equipe.setIdEquipe(null);
+        // adicionar projeto pelo controller depois
         if(opc.equals("Genérico")){
             
             try{
                 Date prazoEntrega = DateConverter.convertToSqlDate(cxPrazoEntrega.getText());
                 String descricao = cxDescricao.getText();
                 String prioridade = (String) ComboBoxPrioridade.getSelectedItem();
-                tarefa = new Tarefa(0, prazoEntrega, descricao, prioridade, dataCriacao, usuario, equipe, projeto);
+                tarefa = new Tarefa(this.tarefa.getIdTarefa(), prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto);
                 TarefaCtrl tarefaDAO = new TarefaCtrl();
-                tarefaDAO.adicionar(tarefa);
+                tarefaDAO.atualizar(tarefa);
+                tarefaDAO.getConexao().getConn().close();
             }
             catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,
@@ -317,9 +312,10 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
                 String materia = cxMateria.getText();
                 String professor = cxProfessor.getText();
                 double nota = Double.parseDouble(cxNota.getText());
-                TarefaAcademica tarefaAcademica = new TarefaAcademica(0, prazoEntrega, descricao, prioridade, dataCriacao, usuario, equipe, projeto, materia, professor, nota);
+                TarefaAcademica tarefaAcademica = new TarefaAcademica(this.tarefa.getIdTarefa(), prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto, materia, professor, nota);
                 TarefaAcademicaCtrl tarefaAcademicaDAO = new TarefaAcademicaCtrl();
-                tarefaAcademicaDAO.adicionar(tarefaAcademica);
+                tarefaAcademicaDAO.atualizar(tarefaAcademica);
+                tarefaAcademicaDAO.getConexao().getConn().close();
             }
             catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,
@@ -344,9 +340,11 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
                 String recorrencia = cxRecorrencia.getText();
                 String local = cxLocal.getText();
                 
-                TarefaPessoal tarefaPessoal = new TarefaPessoal(0, prazoEntrega, descricao, prioridade, dataCriacao, usuario, equipe, projeto, recorrencia, local);
+                TarefaPessoal tarefaPessoal = new TarefaPessoal(this.tarefa.getIdTarefa(), prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto, recorrencia, local);
                 TarefaPessoalCtrl tarefaPessoalDAO = new TarefaPessoalCtrl();
-                tarefaPessoalDAO.adicionar(tarefaPessoal);
+                tarefaPessoalDAO.atualizar(tarefaPessoal);
+                
+                tarefaPessoalDAO.getConexao().getConn().close();
             }
             catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,
@@ -370,9 +368,11 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
                 String departamento = cxDepartamento.getText();
                 Date prazoRevisao = DateConverter.convertToSqlDate(cxPrazoRevisao.getText());
                 
-                TarefaTrabalho tarefaTrabalho = new TarefaTrabalho(0, prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto, departamento, prazoRevisao);
+                TarefaTrabalho tarefaTrabalho = new TarefaTrabalho(this.tarefa.getIdTarefa(), prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto, departamento, prazoRevisao);
                 TarefaTrabalhoCtrl tarefaTrabalhoDAO = new TarefaTrabalhoCtrl();
-                tarefaTrabalhoDAO.adicionar(tarefaTrabalho);
+                tarefaTrabalhoDAO.atualizar(tarefaTrabalho);
+                
+                tarefaTrabalhoDAO.getConexao().getConn().close();
             }
             catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,
@@ -386,6 +386,7 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
                 "Erro",
                 JOptionPane.ERROR_MESSAGE);
             }
+            
         } 
     }//GEN-LAST:event_btEnviarActionPerformed
 
@@ -393,14 +394,9 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
         limpar();
     }//GEN-LAST:event_btLimparActionPerformed
 
-    private void btSelecionarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelecionarUsuarioActionPerformed
-        guiController.mostrarProjetoSelecionarUsuarioGUI(projeto.getIdProjeto());
-        
-    }//GEN-LAST:event_btSelecionarUsuarioActionPerformed
-
-    private void btSelecionarEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelecionarEquipeActionPerformed
-        guiController.mostrarProjetoSelecionarEquipeGUI(projeto.getIdProjeto());
-    }//GEN-LAST:event_btSelecionarEquipeActionPerformed
+    private void btSelecionarProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelecionarProjetoActionPerformed
+        guiController.mostrarTarefaProjetoGUI(usuarioSessao.getIdUsuario());
+    }//GEN-LAST:event_btSelecionarProjetoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,23 +415,21 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProjetoAtribuirTarefaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TarefaEditorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProjetoAtribuirTarefaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TarefaEditorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProjetoAtribuirTarefaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TarefaEditorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProjetoAtribuirTarefaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TarefaEditorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProjetoAtribuirTarefaView(new GUIController(), 0).setVisible(true);
+                new TarefaEditorView(new GUIController(), 1).setVisible(true);
             }
         });
     }
@@ -498,6 +492,7 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
         cxRecorrencia.setText("");
         cxDescricao.setText("");
     }
+    
 
     public Usuario getUsuarioSessao() {
         return usuarioSessao;
@@ -506,14 +501,6 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
     public void setUsuarioSessao(Usuario usuarioSessao) {
         this.usuarioSessao = usuarioSessao;
     }
-
-    public Projeto getProjeto() {
-        return projeto;
-    }
-
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
-    }
     
     
     
@@ -521,8 +508,7 @@ public class ProjetoAtribuirTarefaView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ComboBoxPrioridade;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btLimpar;
-    private javax.swing.JButton btSelecionarEquipe;
-    private javax.swing.JButton btSelecionarUsuario;
+    private javax.swing.JButton btSelecionarProjeto;
     private javax.swing.JComboBox<String> comboBoxTipo;
     private javax.swing.JTextField cxDepartamento;
     private javax.swing.JTextArea cxDescricao;

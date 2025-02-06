@@ -3,11 +3,11 @@ package control;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Equipe;
-import model.Perfil;
 import model.Projeto;
 import model.Tarefa;
 import model.TarefaAcademica;
@@ -16,11 +16,7 @@ import model.TarefaTrabalho;
 import model.Usuario;
 
 public class EquipeCtrl{
-    private String liderEquipe;
-    private String areaAtuacao;
-    private String descricao;
-    private int idEquipe;
-    private String funcao;
+    
     private ConexaoSQL conexao;
 
     public EquipeCtrl(){
@@ -29,31 +25,48 @@ public class EquipeCtrl{
     }
 
     public void adicionar(Equipe equipe){
-        String sql = "INSERT INTO equipe (idequipe, idliderequipe, areaatuacao, descricao, funcao, idprojeto) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO equipe (usuarioliderid, areaatuacao, descricao, funcao, idprojeto) VALUES (?, ?, ?, ?, ?)";
+        String sql2 = "INSERT INTO equipemembro (idusuario, idequipe) VALUES (?, ?)";
         
         try{
-            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
-            pstmt.setInt(1, equipe.getIdEquipe());
-            pstmt.setInt(2, equipe.getLiderEquipe().getIdUsuario());
-            pstmt.setString(3, equipe.getAreaAtuacao());
-            pstmt.setString(4, equipe.getDescricao());
-            pstmt.setString(5, equipe.getFuncao());
-            pstmt.setInt(6, equipe.getProjeto().getIdProjeto());
+            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            pstmt.setInt(1, equipe.getLiderEquipe().getIdUsuario());
+            pstmt.setString(2, equipe.getAreaAtuacao());
+            pstmt.setString(3, equipe.getDescricao());
+            pstmt.setString(4, equipe.getFuncao());
+            pstmt.setInt(5, equipe.getProjeto().getIdProjeto());
             
             pstmt.executeUpdate();
+            
+            ResultSet rs = pstmt.getGeneratedKeys();
+            
+            if(rs.next()){
+                PreparedStatement pstmt2 = conexao.getConn().prepareStatement(sql2);
+                Integer idEquipe = rs.getInt(1);
+                
+                List<Usuario> usuarios = equipe.getMembros();
+                
+                for (Usuario u : usuarios) {
+                    pstmt2.setInt(1, u.getIdUsuario());
+                    pstmt2.setInt(2, idEquipe);
+                    
+                    pstmt2.executeUpdate();
+                }
+            }
         }
         catch(SQLException sqle){
             System.out.println(sqle.getMessage());
         }
     }
     
-    public void remover(Equipe equipe){
+    public void remover(Integer idEquipe){
         String sql = "DELETE FROM equipe WHERE idequipe = ?";
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
 
-            pstmt.setInt(1, equipe.getIdEquipe());
+            pstmt.setInt(1, idEquipe);
             
             pstmt.executeUpdate();
         }
@@ -63,7 +76,7 @@ public class EquipeCtrl{
     }
     
     public ResultSet consultar(Projeto projeto){
-        String sql = "SELECT idequipe, idliderequipe, areaatuacao, descricao, funcao, idprojeto FROM equipe WHERE idprojeto = ?";
+        String sql = "SELECT idequipe, usuarioliderid, areaatuacao, descricao, funcao, idprojeto FROM equipe WHERE idprojeto = ?";
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
@@ -83,7 +96,7 @@ public class EquipeCtrl{
     
     
     public void atualizar(Equipe equipe){
-        String sql = "UPDATE equipe SET idliderequipe = ?, areaatuacao = ?, descricao = ?, funcao = ?, idprojeto = ? WHERE idequipe = ?";
+        String sql = "UPDATE equipe SET usuarioliderid = ?, areaatuacao = ?, descricao = ?, funcao = ?, idprojeto = ? WHERE idequipe = ?";
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
@@ -123,9 +136,16 @@ public class EquipeCtrl{
                         projetoDAO.consultarProjeto(rs.getInt("idprojeto"))
                 );
                 
+
+                usuarioDAO.getConexao().getConn().close(); // 
+                projetoDAO.getConexao().getConn().close(); //
+                
                 return e;
             }
             
+            
+            usuarioDAO.getConexao().getConn().close(); // 
+            projetoDAO.getConexao().getConn().close(); //
         }
         catch(SQLException sqle){
             System.out.println(sqle.getMessage());
@@ -164,6 +184,9 @@ public class EquipeCtrl{
                 
                 membros.add(u);
             }
+            
+            perfilDAO.getConexao().getConn().close(); //
+
             
             return membros;
         }
@@ -224,6 +247,10 @@ public class EquipeCtrl{
                 tarefas.add(tarefa);
             }
             
+
+            usuarioDAO.getConexao().getConn().close(); // 
+            projetoDAO.getConexao().getConn().close(); //
+            
             return tarefas;
         }
         catch(SQLException sqle){
@@ -231,5 +258,13 @@ public class EquipeCtrl{
         }
         
         return null;
+    }
+    
+     public ConexaoSQL getConexao() {
+        return conexao;
+    }
+
+    public void setConexao(ConexaoSQL conexao) {
+        this.conexao = conexao;
     }
 }

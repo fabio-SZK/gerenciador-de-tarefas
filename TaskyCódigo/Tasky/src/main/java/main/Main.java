@@ -12,16 +12,7 @@ import view.*;
  */
 public class Main {
     public static void main(String[] args) {
-        LoginView loginView = new LoginView();
-        loginView.setVisible(true);
-        while(loginView.getSessao() == null){
-            
-        }
-        
-        if(loginView.getSessao() != null){
-            Usuario sessao = loginView.getSessao();
-            PrincipalGUI principalGUI = new PrincipalGUI(loginView.getSessao());
-            principalGUI.setVisible(true);
-        }
+
+
     }
 }

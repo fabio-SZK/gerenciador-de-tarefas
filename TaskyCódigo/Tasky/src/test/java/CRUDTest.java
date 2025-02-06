@@ -45,9 +45,21 @@ public class CRUDTest {
         guiController.mostrarTarefaView();
         */
         
+        /*
         UsuarioCtrl usuarioDAO = new UsuarioCtrl();
         GUIController guiController = new GUIController();
         
         guiController.mostrarProjetoView();
+        */
+        /*
+        UsuarioCtrl usuarioDAO = new UsuarioCtrl();
+        GUIController guiController = new GUIController();
+        
+        guiController.mostrarProjetoAtribuirTarefaView(2);
+*/
+        
+        GUIController guiController = new GUIController();
+        
+        
     }
 }

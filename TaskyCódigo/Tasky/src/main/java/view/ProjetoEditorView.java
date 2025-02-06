@@ -8,6 +8,7 @@ import control.DateConverter;
 import control.GUIController;
 import control.ProjetoCtrl;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import model.Projeto;
@@ -17,9 +18,11 @@ import model.Usuario;
  *
  * @author Fabio
  */
-public class ProjetoView extends javax.swing.JFrame {
+public class ProjetoEditorView extends javax.swing.JFrame {
     private Usuario usuarioSessao;
     private GUIController guiController;
+    private Integer idProjeto;
+    private Projeto projeto;
 
     public Usuario getUsuarioSessao() {
         return usuarioSessao;
@@ -34,9 +37,26 @@ public class ProjetoView extends javax.swing.JFrame {
      * Creates new form ProjetoView
      * @param guiController
      */
-    public ProjetoView(GUIController guiController) {
+    public ProjetoEditorView(GUIController guiController, Integer idProjeto) {
         this.guiController = guiController;
+        this.idProjeto = idProjeto;
+        
         initComponents();
+        
+        ProjetoCtrl projetoDAO = new ProjetoCtrl();
+        
+        projeto = projetoDAO.consultarProjeto(idProjeto);
+        
+        try{
+            projetoDAO.getConexao().getConn().close();
+        }catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
+        preencherDados();
     }
 
     /**
@@ -67,7 +87,7 @@ public class ProjetoView extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         rotNome.setText("Nome do projeto:");
 
@@ -176,10 +196,11 @@ public class ProjetoView extends javax.swing.JFrame {
             String descricao = cxDescricao.getText();
             Date prazoEntrega = DateConverter.convertToSqlDate(cxPrazo.getText());
             String objetivo = cxObjetivo.getText();
-            projeto = new Projeto(null, nome, descricao, dataCriacao, prazoEntrega, objetivo);
+            projeto = new Projeto(this.projeto.getIdProjeto(), nome, descricao, this.projeto.getDataCriacao(), prazoEntrega, objetivo);
 
             ProjetoCtrl projetoDAO = new ProjetoCtrl();
-            projetoDAO.adicionar(usuarioSessao, projeto);
+            projetoDAO.atualizar(projeto);
+            
             projetoDAO.getConexao().getConn().close();
         }
         catch(NumberFormatException nfe){
@@ -197,13 +218,54 @@ public class ProjetoView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btEnviarActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ProjetoEditorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ProjetoEditorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ProjetoEditorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ProjetoEditorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
 
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ProjetoEditorView(new GUIController(), 2).setVisible(true);
+            }
+        });
+    }
     
     private void limpar() {
         cxNome.setText("");
         cxDescricao.setText("");
         cxPrazo.setText("");
         cxObjetivo.setText("");
+    }
+    
+    public void preencherDados(){
+        cxNome.setText("" + projeto.getNome() + "");
+        cxDescricao.setText("" + projeto.getDescricao() + "");
+        cxPrazo.setText("" + projeto.getDataUltima().toString());
+        cxObjetivo.setText("" + projeto.getObjetivo());
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btEnviar;

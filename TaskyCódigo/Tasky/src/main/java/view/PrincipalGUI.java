@@ -4,6 +4,7 @@
  */
 package view;
 
+import control.GUIController;
 import model.Usuario;
 
 /**
@@ -11,13 +12,23 @@ import model.Usuario;
  * @author Fabio
  */
 public class PrincipalGUI extends javax.swing.JFrame {
-    private Usuario usuario;
+    private Usuario usuarioSessao;
+    GUIController guiController;
+    
+    public Usuario getUsuarioSessao() {
+        return usuarioSessao;
+    }
+
+    public void setUsuarioSessao(Usuario usuarioSessao) {
+        this.usuarioSessao = usuarioSessao;
+    }
     
     /**
      * Creates new form PrincipalGUI
      */
-    public PrincipalGUI(Usuario usuario) {
-        this.usuario = usuario;
+    public PrincipalGUI(GUIController guiController) {
+        this.usuarioSessao = new Usuario();
+        this.guiController = guiController;
         
         initComponents();
         
@@ -33,13 +44,23 @@ public class PrincipalGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btCalendario = new javax.swing.JButton();
+        btUsuarios = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        btProjetos = new javax.swing.JButton();
+        btTarefas = new javax.swing.JButton();
+        pnlUsuario = new javax.swing.JPanel();
+        pnlPerfil = new javax.swing.JPanel();
         rotUsuario = new javax.swing.JLabel();
+
+        btCalendario.setText("Calendário");
+        btCalendario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCalendarioActionPerformed(evt);
+            }
+        });
+
+        btUsuarios.setText("Usuarios");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,34 +69,63 @@ public class PrincipalGUI extends javax.swing.JFrame {
         jLabel1.setText("Tasky");
         jLabel1.setToolTipText("");
 
-        jButton1.setText("Projetos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btProjetos.setText("Projetos");
+        btProjetos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btProjetosActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Tarefas");
+        btTarefas.setText("Tarefas");
+        btTarefas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btTarefasActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Calendário");
+        pnlUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlUsuarioMouseClicked(evt);
+            }
+        });
 
-        jButton4.setText("Comunidade");
+        pnlPerfil.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnlPerfilLayout = new javax.swing.GroupLayout(pnlPerfil);
+        pnlPerfil.setLayout(pnlPerfilLayout);
+        pnlPerfilLayout.setHorizontalGroup(
+            pnlPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 58, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlPerfilLayout.setVerticalGroup(
+            pnlPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
         rotUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rotUsuario.setText("Perfil");
+
+        javax.swing.GroupLayout pnlUsuarioLayout = new javax.swing.GroupLayout(pnlUsuario);
+        pnlUsuario.setLayout(pnlUsuarioLayout);
+        pnlUsuarioLayout.setHorizontalGroup(
+            pnlUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUsuarioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rotUsuario)
+                .addContainerGap(98, Short.MAX_VALUE))
+        );
+        pnlUsuarioLayout.setVerticalGroup(
+            pnlUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUsuarioLayout.createSequentialGroup()
+                .addContainerGap(7, Short.MAX_VALUE)
+                .addGroup(pnlUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rotUsuario)
+                    .addComponent(pnlPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,92 +137,59 @@ public class PrincipalGUI extends javax.swing.JFrame {
                         .addGap(578, 578, 578)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btProjetos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btTarefas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rotUsuario)))
+                        .addComponent(pnlUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(574, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rotUsuario))
-                .addGap(143, 143, 143)
+                .addComponent(pnlUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(180, 180, 180)
                 .addComponent(jLabel1)
                 .addGap(35, 35, 35)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btProjetos, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addComponent(btTarefas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(266, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ProjetoGUI projetoGUI = new ProjetoGUI();
-        
-        projetoGUI.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btProjetosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProjetosActionPerformed
+        guiController.mostrarProjetoGUI();
+    }//GEN-LAST:event_btProjetosActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btCalendarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalendarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btCalendarioActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                //new PrincipalGUI().setVisible(true);
-            }
-        });
-    }
-    
+    private void btTarefasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTarefasActionPerformed
+        guiController.mostrarTarefaGUI();
+    }//GEN-LAST:event_btTarefasActionPerformed
+
+    private void pnlUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUsuarioMouseClicked
+        guiController.mostrarPerfilGUIPrincipal();
+    }//GEN-LAST:event_pnlUsuarioMouseClicked
+
+
     public void initRotUsuario(){
-        rotUsuario.setText(usuario.getNome());
+        rotUsuario.setText(usuarioSessao.getNome());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btCalendario;
+    private javax.swing.JButton btProjetos;
+    private javax.swing.JButton btTarefas;
+    private javax.swing.JButton btUsuarios;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel pnlPerfil;
+    private javax.swing.JPanel pnlUsuario;
     private javax.swing.JLabel rotUsuario;
     // End of variables declaration//GEN-END:variables
 }

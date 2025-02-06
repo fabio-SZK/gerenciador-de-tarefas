@@ -90,15 +90,14 @@ public class TarefaAcademicaCtrl {
             PreparedStatement pstmt1 = conexao.getConn().prepareStatement(sql1);
             PreparedStatement pstmt2 = conexao.getConn().prepareStatement(sql2);    
             
-            pstmt1.setInt(1, tarefa.getIdTarefa());
-            pstmt1.setDate(2, new java.sql.Date(tarefa.getPrazoEntrega().getTime()));
-            pstmt1.setString(3, tarefa.getDescricao());
-            pstmt1.setString(4, tarefa.getPrioridade());
-            pstmt1.setDate(5, new java.sql.Date(tarefa.getDataCriacao().getTime()));
-            pstmt1.setInt(6, tarefa.getUsuario().getIdUsuario());
-            pstmt1.setInt(7, tarefa.getEquipe().getIdEquipe());
-            pstmt1.setInt(8, tarefa.getProjeto().getIdProjeto());
-            pstmt1.setInt(9, tarefa.getIdTarefa());
+            pstmt1.setDate(1, new java.sql.Date(tarefa.getPrazoEntrega().getTime()));
+            pstmt1.setString(2, tarefa.getDescricao());
+            pstmt1.setString(3, tarefa.getPrioridade());
+            pstmt1.setDate(4, new java.sql.Date(tarefa.getDataCriacao().getTime()));
+            pstmt1.setInt(5, tarefa.getUsuario().getIdUsuario());
+            pstmt1.setInt(6, tarefa.getEquipe().getIdEquipe());
+            pstmt1.setInt(7, tarefa.getProjeto().getIdProjeto());
+            pstmt1.setInt(8, tarefa.getIdTarefa());
             
             pstmt1.execute();
             
@@ -150,15 +149,29 @@ public class TarefaAcademicaCtrl {
                 
                 
                 tarefa = new TarefaAcademica(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("materia"), rs.getString("professor"), rs.getDouble("nota"));
-
+                
+                equipeDAO.getConexao().getConn().close(); //
+                usuarioDAO.getConexao().getConn().close(); // 
+                projetoDAO.getConexao().getConn().close(); //
+                
                 return tarefa;
             }
-            
+            equipeDAO.getConexao().getConn().close(); //
+            usuarioDAO.getConexao().getConn().close(); // 
+            projetoDAO.getConexao().getConn().close(); //
         }
         catch(SQLException sqle){
             System.out.println(sqle.getMessage());
         }
         
         return null;
+    }
+    
+     public ConexaoSQL getConexao() {
+        return conexao;
+    }
+
+    public void setConexao(ConexaoSQL conexao) {
+        this.conexao = conexao;
     }
 }

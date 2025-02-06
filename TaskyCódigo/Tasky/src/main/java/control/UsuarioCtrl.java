@@ -1,11 +1,10 @@
 package control;
 import model.Usuario;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +30,7 @@ public class UsuarioCtrl{
         PerfilCtrl perfilDAO = new PerfilCtrl();
         
         try{
-            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
+            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             PreparedStatement pstmtQuery = conexao.getConn().prepareStatement(sqlQuery);
             
             pstmtQuery.setString(1, usuario.getNome());
@@ -44,14 +43,25 @@ public class UsuarioCtrl{
                 pstmt.setString(3, usuario.getEmail());
             
                 pstmt.executeUpdate();
-            
-                perfilDAO.adicionar(usuario); // Adicionar um perfil padrão
-            
+                
+                ResultSet rs2 = pstmt.getGeneratedKeys();
+                
+                if(rs2.next()){
+                    Integer idUsuario = rs2.getInt(1);
+                    usuario.setIdUsuario(idUsuario);
+                    perfilDAO.adicionar(usuario);
+                }
+                
+                     // Adicionar um perfil padrão
+                
+                perfilDAO.getConexao().getConn().close(); //
+                
                 return usuario;
             }
         }
         catch(SQLException sqle){
             System.out.println(sqle.getMessage());
+            System.out.println("TEST");
         }
         
         return null; // Registração falhada
@@ -105,7 +115,7 @@ public class UsuarioCtrl{
     }
 
     public List<Projeto> consultarProjetos(int idUsuario){
-        ProjetoCtrl projetoDAO = new ProjetoCtrl();
+
         List<Projeto> projetos = new ArrayList<>();
         String sql = "SELECT projeto.idprojeto, nome, descricao, datacriacao, dataultima, objetivo FROM projeto JOIN projetomembro ON projeto.idprojeto = projetomembro.idprojeto WHERE projetomembro.idusuario = ?";
         
@@ -139,7 +149,7 @@ public class UsuarioCtrl{
     }
     
     public List<Equipe> consultarEquipes(int idUsuario){
-        EquipeCtrl equipeDAO = new EquipeCtrl();
+
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
         List<Equipe> equipes = new ArrayList<>();
         String sql = """
@@ -179,7 +189,7 @@ public class UsuarioCtrl{
         return null;
     }
     
-    public List<Tarefa> consultarTarefas(int idUsuario){
+    public List<Tarefa> consultarTarefas(Integer idUsuario){
         List<Tarefa> tarefas = new ArrayList<>();
         EquipeCtrl equipeDAO = new EquipeCtrl();
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
@@ -197,7 +207,7 @@ public class UsuarioCtrl{
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
             
-            pstmt.setInt(1, idUsuario);
+            pstmt.setObject(1, idUsuario, java.sql.Types.INTEGER);
             
             ResultSet rs = pstmt.executeQuery();
             
@@ -230,6 +240,9 @@ public class UsuarioCtrl{
                 tarefas.add(tarefa);
             }
             
+            equipeDAO.getConexao().getConn().close(); //
+            projetoDAO.getConexao().getConn().close(); //
+            
             return tarefas;
         }
         catch(SQLException sqle){
@@ -257,6 +270,8 @@ public class UsuarioCtrl{
                         rs.getString("email"),
                         perfilDAO.selecionar(rs.getInt("idUsuario"))
                 );
+                
+                perfilDAO.getConexao().getConn().close();
                 
                 return u;
             }
@@ -294,5 +309,13 @@ public class UsuarioCtrl{
         }
         
         return null;
+    }
+    
+     public ConexaoSQL getConexao() {
+        return conexao;
+    }
+
+    public void setConexao(ConexaoSQL conexao) {
+        this.conexao = conexao;
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * @author Fabio
  */
 public class Usuario {
-    private int idUsuario;
+    private Integer idUsuario;
     private String nome;
     private String senha;
     private String email;
@@ -22,7 +22,7 @@ public class Usuario {
     private List<Equipe> equipesUsuario;
     private List<Tarefa> listaTarefasUsuario;
 
-    public Usuario(int idUsuario, String nome, String senha, String email, Perfil perfilUsuario, List<Projeto> projetosUsuario, List<Equipe> equipesUsuario, List<Tarefa> listaTarefasUsuario) {
+    public Usuario(Integer idUsuario, String nome, String senha, String email, Perfil perfilUsuario, List<Projeto> projetosUsuario, List<Equipe> equipesUsuario, List<Tarefa> listaTarefasUsuario) {
         this.idUsuario = idUsuario;
         this.nome = nome;
         this.senha = senha;
@@ -33,7 +33,7 @@ public class Usuario {
         this.listaTarefasUsuario = listaTarefasUsuario;
     }
 
-    public Usuario(int idUsuario, String nome, String senha, String email, Perfil perfilUsuario) {
+    public Usuario(Integer idUsuario, String nome, String senha, String email, Perfil perfilUsuario) {
         this.idUsuario = idUsuario;
         this.nome = nome;
         this.senha = senha;
@@ -57,11 +57,11 @@ public class Usuario {
         this.listaTarefasUsuario = new ArrayList<>();
     }
 
-    public int getIdUsuario() {
+    public Integer getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 

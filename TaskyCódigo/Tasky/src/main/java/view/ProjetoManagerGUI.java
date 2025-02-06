@@ -4,13 +4,16 @@
  */
 package view;
 
+import control.EquipeCtrl;
+import control.GUIController;
 import control.ProjetoCtrl;
+import control.TarefaCtrl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.sql.Date;
+import java.sql.SQLException;
 
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -29,48 +32,52 @@ import model.Usuario;
  */
 public class ProjetoManagerGUI extends javax.swing.JFrame {
     //Projeto projeto = new Projeto(2, "", "", new Date(1), new Date(1), "");
+    GUIController guiController;
     Projeto projeto;
+    Integer idProjeto;
+    Usuario usuarioSessao;
+
+    public Projeto getProjeto() {
+        return projeto;
+    }
+
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
+    }
+
+    public Integer getIdProjeto() {
+        return idProjeto;
+    }
+
+    public void setIdProjeto(Integer idProjeto) {
+        this.idProjeto = idProjeto;
+    }
+
+    public Usuario getUsuarioSessao() {
+        return usuarioSessao;
+    }
+
+    public void setUsuarioSessao(Usuario usuarioSessao) {
+        this.usuarioSessao = usuarioSessao;
+    }
+    
+    
+    
     /**
      * Creates new form ProjetoManagerGUI
      */
-    public ProjetoManagerGUI() {
+    public ProjetoManagerGUI(GUIController guiController, Integer idProjeto) {
+        this.guiController = guiController;
+        
+        guiController.setIdTarefa(null);
+        guiController.setIdEquipe(null);
+        
         initComponents();
         
+        this.idProjeto = idProjeto;
         
         // Fetch projects from database
-        ProjetoCtrl projetoDAO = new ProjetoCtrl();
-        projeto = projetoDAO.consultarProjeto(2);
-        List<Usuario> usuarios = projetoDAO.consultarMembros(2);
-
-        // Add each project to the content panel
-        for (Usuario usuario : usuarios) {
-            pnlUsuarios.add(createUserBlock(usuario));
-        }
-        
-        pnlUsuarios.revalidate();
-        pnlUsuarios.repaint();
-        
-        List<Tarefa> tarefas = projetoDAO.consultarTarefas(2);
-
-        // Add each project to the content panel
-        for (Tarefa tarefa : tarefas) {
-            pnlTarefas.add(createTaskBlock(tarefa));
-        }
-        
-        pnlTarefas.revalidate();
-        pnlTarefas.repaint();
-        
-        List<Equipe> equipes = projetoDAO.consultarEquipes(2);
-
-        // Add each project to the content panel
-        for (Equipe equipe : equipes) {
-            pnlEquipes.add(createTeamBlock(equipe));
-        }
-        
-        pnlEquipes.revalidate();
-        pnlEquipes.repaint();
-        
-        preencherDados();
+        atualizar();
     }
 
     /**
@@ -102,7 +109,6 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         rotObjetivo = new javax.swing.JLabel();
         btAtribuirTarefa = new javax.swing.JButton();
         btRemoverTarefa = new javax.swing.JButton();
-        btEditarTarefa = new javax.swing.JButton();
         btAdicionarMembro = new javax.swing.JButton();
         btRemoverMembro = new javax.swing.JButton();
         btEditarProjeto = new javax.swing.JButton();
@@ -110,8 +116,13 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         btRemoverEquipe = new javax.swing.JButton();
         btAdicionarLider = new javax.swing.JButton();
         btRemoverLider = new javax.swing.JButton();
+        btAtualizar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        rotTarefaNota = new javax.swing.JLabel();
+        rotTarefaNota1 = new javax.swing.JLabel();
+        btSelecionarEquipe = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -162,10 +173,18 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         rotObjetivo.setText("Objetivo:");
 
         btAtribuirTarefa.setText("Atribuir Tarefa...");
+        btAtribuirTarefa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtribuirTarefaActionPerformed(evt);
+            }
+        });
 
-        btRemoverTarefa.setText("Remover Tarefa...");
-
-        btEditarTarefa.setText("Editar Tarefa...");
+        btRemoverTarefa.setText("Remover Tarefa");
+        btRemoverTarefa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRemoverTarefaActionPerformed(evt);
+            }
+        });
 
         btAdicionarMembro.setText("Adicionar Membro...");
         btAdicionarMembro.addActionListener(new java.awt.event.ActionListener() {
@@ -184,8 +203,18 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         btEditarProjeto.setText("Editar projeto...");
 
         btAdicionarEquipe.setText("Adicionar Equipe...");
+        btAdicionarEquipe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAdicionarEquipeActionPerformed(evt);
+            }
+        });
 
-        btRemoverEquipe.setText("Remover Equipe...");
+        btRemoverEquipe.setText("Remover Equipe");
+        btRemoverEquipe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRemoverEquipeActionPerformed(evt);
+            }
+        });
 
         btAdicionarLider.setText("Adicionar Lider...");
         btAdicionarLider.addActionListener(new java.awt.event.ActionListener() {
@@ -201,12 +230,39 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
             }
         });
 
+        btAtualizar.setText("Atualizar");
+        btAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtualizarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Selecionar Tarefa...");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        rotTarefaNota.setText("<html><i>Nota: Seleciona uma tarefa antes de remover ou editar</i></html>");
+
+        rotTarefaNota1.setText("<html><i>Nota: Seleciona uma equipe antes de removê-la</i></html>");
+
+        btSelecionarEquipe.setText("Selecionar Equipe...");
+        btSelecionarEquipe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSelecionarEquipeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btAtualizar)
+                .addGap(18, 18, 18)
                 .addComponent(btEditarProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
@@ -219,10 +275,13 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
                     .addComponent(rotNome, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rotTarefaNota1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(btAdicionarEquipe)
                         .addGap(33, 33, 33)
-                        .addComponent(btRemoverEquipe))
+                        .addComponent(btRemoverEquipe)
+                        .addGap(33, 33, 33)
+                        .addComponent(btSelecionarEquipe))
                     .addComponent(rotEquipes)
                     .addComponent(pnlScrlLista2, javax.swing.GroupLayout.PREFERRED_SIZE, 813, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
@@ -232,9 +291,8 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
                             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                                 .addComponent(btAtribuirTarefa)
                                 .addGap(18, 18, 18)
-                                .addComponent(btRemoverTarefa)
-                                .addGap(18, 18, 18)
-                                .addComponent(btEditarTarefa)))
+                                .addComponent(btRemoverTarefa))
+                            .addComponent(jButton1))
                         .addGap(57, 57, 57)
                         .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pnlScrlLista, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,14 +304,17 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btRemoverMembro)
-                                    .addComponent(btRemoverLider))))))
+                                    .addComponent(btRemoverLider)))))
+                    .addComponent(rotTarefaNota, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(btEditarProjeto)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btEditarProjeto)
+                    .addComponent(btAtualizar))
                 .addGap(18, 18, 18)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
@@ -279,22 +340,27 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAtribuirTarefa)
                     .addComponent(btRemoverTarefa)
-                    .addComponent(btEditarTarefa)
                     .addComponent(btAdicionarMembro)
                     .addComponent(btRemoverMembro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAdicionarLider)
-                    .addComponent(btRemoverLider))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                    .addComponent(btRemoverLider)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addComponent(rotTarefaNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(rotEquipes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlScrlLista2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAdicionarEquipe)
-                    .addComponent(btRemoverEquipe))
-                .addGap(41, 41, 41))
+                    .addComponent(btRemoverEquipe)
+                    .addComponent(btSelecionarEquipe))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rotTarefaNota1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13))
         );
 
         jScrollPane1.setViewportView(pnlPrincipal);
@@ -339,6 +405,15 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         
         projetoDAO.adicionarMembro(nomeUsuario, projeto);
         
+        try{
+            projetoDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+            sqle.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btAdicionarMembroActionPerformed
 
     private void btAdicionarLiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarLiderActionPerformed
@@ -351,6 +426,16 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         
         projetoDAO.adicionarLider(nomeUsuario, projeto);
         
+        try{
+            projetoDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+            sqle.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btAdicionarLiderActionPerformed
 
     private void btRemoverMembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverMembroActionPerformed
@@ -362,6 +447,16 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
         
         projetoDAO.removerMembro(nomeUsuario, projeto);
+        
+        try{
+            projetoDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+            sqle.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btRemoverMembroActionPerformed
 
     private void btRemoverLiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverLiderActionPerformed
@@ -373,7 +468,76 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
         
         projetoDAO.removerLider(nomeUsuario, projeto);
+        
+        try{
+            projetoDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+            sqle.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btRemoverLiderActionPerformed
+
+    private void btAtribuirTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtribuirTarefaActionPerformed
+        guiController.mostrarProjetoAtribuirTarefaView(idProjeto);
+    }//GEN-LAST:event_btAtribuirTarefaActionPerformed
+
+    private void btRemoverTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverTarefaActionPerformed
+        if(guiController.getIdTarefa() != null){
+            TarefaCtrl tarefaDAO = new TarefaCtrl();
+        
+            tarefaDAO.remover(guiController.getIdTarefa());
+            try{
+                tarefaDAO.getConexao().getConn().close();
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        guiController.setIdTarefa(null);
+    }//GEN-LAST:event_btRemoverTarefaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        guiController.mostrarProjetoSelecionarTarefaGUI(idProjeto);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+        atualizar();
+        guiController.setIdTarefa(null);
+        guiController.setIdEquipe(null);
+    }//GEN-LAST:event_btAtualizarActionPerformed
+
+    private void btRemoverEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverEquipeActionPerformed
+        if(guiController.getIdEquipe() != null){
+            EquipeCtrl equipeDAO = new EquipeCtrl();
+        
+            equipeDAO.remover(guiController.getIdEquipe());
+            
+            try{
+                equipeDAO.getConexao().getConn().close();
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        guiController.setIdEquipe(null);
+    }//GEN-LAST:event_btRemoverEquipeActionPerformed
+
+    private void btSelecionarEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelecionarEquipeActionPerformed
+        guiController.mostrarProjetoSelecionarEquipeGUI(idProjeto);
+    }//GEN-LAST:event_btSelecionarEquipeActionPerformed
+
+    private void btAdicionarEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarEquipeActionPerformed
+        guiController.mostrarEquipeView(idProjeto);
+    }//GEN-LAST:event_btAdicionarEquipeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -405,7 +569,7 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProjetoManagerGUI().setVisible(true);
+                new ProjetoManagerGUI(new GUIController(), 2).setVisible(true);
             }
         });
     }
@@ -435,6 +599,16 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         }
         else{
             rotLider = new JLabel("");
+        }
+        
+        try{
+            projetoDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+            sqle.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
         }
         
         JButton btDetalhes = new JButton("Detalhes");
@@ -519,17 +693,74 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
         rotObjetivo.setText("Objetivo: " + projeto.getObjetivo());
     }
     
+    public void atualizar(){
+        pnlUsuarios.removeAll();
+        pnlTarefas.removeAll();
+        pnlEquipes.removeAll();
+        
+        pnlUsuarios.revalidate();
+        pnlUsuarios.repaint();
+        pnlTarefas.revalidate();
+        pnlTarefas.repaint();
+        pnlEquipes.revalidate();
+        pnlEquipes.repaint();
+        
+        ProjetoCtrl projetoDAO = new ProjetoCtrl();
+        projeto = projetoDAO.consultarProjeto(idProjeto);
+        List<Usuario> usuarios = projetoDAO.consultarMembros(idProjeto);
+
+        // Add each project to the content panel
+        for (Usuario usuario : usuarios) {
+            pnlUsuarios.add(createUserBlock(usuario));
+        }
+        
+        pnlUsuarios.revalidate();
+        pnlUsuarios.repaint();
+        
+        List<Tarefa> tarefas = projetoDAO.consultarTarefas(idProjeto);
+
+        // Add each project to the content panel
+        for (Tarefa tarefa : tarefas) {
+            pnlTarefas.add(createTaskBlock(tarefa));
+        }
+        
+        pnlTarefas.revalidate();
+        pnlTarefas.repaint();
+        
+        List<Equipe> equipes = projetoDAO.consultarEquipes(idProjeto);
+
+        // Add each project to the content panel
+        for (Equipe equipe : equipes) {
+            pnlEquipes.add(createTeamBlock(equipe));
+        }
+        
+        pnlEquipes.revalidate();
+        pnlEquipes.repaint();
+        
+        preencherDados();
+        try{
+            projetoDAO.getConexao().getConn().close();
+        }catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+                sqle.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionarEquipe;
     private javax.swing.JButton btAdicionarLider;
     private javax.swing.JButton btAdicionarMembro;
     private javax.swing.JButton btAtribuirTarefa;
+    private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btEditarProjeto;
-    private javax.swing.JButton btEditarTarefa;
     private javax.swing.JButton btRemoverEquipe;
     private javax.swing.JButton btRemoverLider;
     private javax.swing.JButton btRemoverMembro;
     private javax.swing.JButton btRemoverTarefa;
+    private javax.swing.JButton btSelecionarEquipe;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel pnlEquipes;
@@ -545,6 +776,8 @@ public class ProjetoManagerGUI extends javax.swing.JFrame {
     private javax.swing.JLabel rotNome;
     private javax.swing.JLabel rotObjetivo;
     private javax.swing.JLabel rotPrazo;
+    private javax.swing.JLabel rotTarefaNota;
+    private javax.swing.JLabel rotTarefaNota1;
     private javax.swing.JLabel rotTarefas;
     private javax.swing.JLabel rotTitulo;
     private javax.swing.JLabel rotUsuarios;

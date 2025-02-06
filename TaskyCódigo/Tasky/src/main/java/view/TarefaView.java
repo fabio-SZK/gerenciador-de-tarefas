@@ -271,6 +271,7 @@ public class TarefaView extends javax.swing.JFrame {
                 tarefa = new Tarefa(0, prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto);
                 TarefaCtrl tarefaDAO = new TarefaCtrl();
                 tarefaDAO.adicionar(tarefa);
+                tarefaDAO.getConexao().getConn().close();
             }
             catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,
@@ -297,6 +298,7 @@ public class TarefaView extends javax.swing.JFrame {
                 TarefaAcademica tarefaAcademica = new TarefaAcademica(0, prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto, materia, professor, nota);
                 TarefaAcademicaCtrl tarefaAcademicaDAO = new TarefaAcademicaCtrl();
                 tarefaAcademicaDAO.adicionar(tarefaAcademica);
+                tarefaAcademicaDAO.getConexao().getConn().close();
             }
             catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,
@@ -324,6 +326,7 @@ public class TarefaView extends javax.swing.JFrame {
                 TarefaPessoal tarefaPessoal = new TarefaPessoal(0, prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto, recorrencia, local);
                 TarefaPessoalCtrl tarefaPessoalDAO = new TarefaPessoalCtrl();
                 tarefaPessoalDAO.adicionar(tarefaPessoal);
+                tarefaPessoalDAO.getConexao().getConn().close();
             }
             catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,
@@ -350,6 +353,7 @@ public class TarefaView extends javax.swing.JFrame {
                 TarefaTrabalho tarefaTrabalho = new TarefaTrabalho(0, prazoEntrega, descricao, prioridade, dataCriacao, usuarioSessao, equipe, projeto, departamento, prazoRevisao);
                 TarefaTrabalhoCtrl tarefaTrabalhoDAO = new TarefaTrabalhoCtrl();
                 tarefaTrabalhoDAO.adicionar(tarefaTrabalho);
+                tarefaTrabalhoDAO.getConexao().getConn().close();
             }
             catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,

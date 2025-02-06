@@ -145,15 +145,30 @@ public class TarefaPessoalCtrl {
                 
                 
                 tarefa = new TarefaPessoal(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto, rs.getString("recorrencia"), rs.getString("local"));
-
+                
+                equipeDAO.getConexao().getConn().close();
+                usuarioDAO.getConexao().getConn().close();
+                projetoDAO.getConexao().getConn().close();
+                
                 return tarefa;
             }
             
+            equipeDAO.getConexao().getConn().close();
+            usuarioDAO.getConexao().getConn().close();
+            projetoDAO.getConexao().getConn().close();
         }
         catch(SQLException sqle){
             System.out.println(sqle.getMessage());
         }
         
         return null;
+    }
+    
+     public ConexaoSQL getConexao() {
+        return conexao;
+    }
+
+    public void setConexao(ConexaoSQL conexao) {
+        this.conexao = conexao;
     }
 }

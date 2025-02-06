@@ -4,12 +4,14 @@
  */
 package view;
 
+import control.GUIController;
 import control.UsuarioCtrl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,23 +19,45 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.Tarefa;
+import model.Usuario;
 
 /**
  *
  * @author Fabio
  */
 public class TarefaGUI extends javax.swing.JFrame {
+    private Usuario usuarioSessao;
+    GUIController guiController;
+    
+    public Usuario getUsuarioSessao() {
+        return usuarioSessao;
+    }
 
+    public void setUsuarioSessao(Usuario usuarioSessao) {
+        this.usuarioSessao = usuarioSessao;
+    }
+    
     /**
      * Creates new form TarefaGUI
      */
-    public TarefaGUI() {
+    public TarefaGUI(GUIController guiController) {
+        this.guiController = guiController;
+        this.usuarioSessao = new Usuario();
         initComponents();
         
         // Fetch projects from database
         UsuarioCtrl usuarioDAO = new UsuarioCtrl();
-        List<Tarefa> tarefas = usuarioDAO.consultarTarefas(2);
-
+        List<Tarefa> tarefas = usuarioDAO.consultarTarefas(usuarioSessao.getIdUsuario());
+        try{
+            usuarioDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+            sqle.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
+        }
+        
         // Add each project to the content panel
         for (Tarefa tarefa : tarefas) {
             pnlTarefas.add(createTaskBlock(tarefa));
@@ -60,7 +84,7 @@ public class TarefaGUI extends javax.swing.JFrame {
         rotPrioridade.setFont(new Font("Arial", Font.PLAIN, 12));
 
         JButton btDetalhes = new JButton("Detalhes");
-        btDetalhes.addActionListener(e -> JOptionPane.showMessageDialog(null, "Tarefa: " + tarefa.getDescricao()));
+        btDetalhes.addActionListener(e -> guiController.mostrarTarefaDetalhesGUI(tarefa.getIdTarefa()));
 
         JPanel pnlTexto = new JPanel(new GridLayout(2, 2));
         pnlTexto.setBackground(Color.WHITE);
@@ -91,8 +115,6 @@ public class TarefaGUI extends javax.swing.JFrame {
         btAtualizar = new javax.swing.JButton();
         rotTitulo = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -206,58 +228,40 @@ public class TarefaGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        guiController.mostrarTarefaView();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        UsuarioCtrl usuarioDAO = new UsuarioCtrl();
-        List<Tarefa> tarefas = usuarioDAO.consultarTarefas(2);
+        atualizar();
+    }//GEN-LAST:event_btAtualizarActionPerformed
 
-        
+    public void atualizar(){
         pnlTarefas.removeAll();
+        pnlTarefas.revalidate();
+        pnlTarefas.repaint();
+        
+        UsuarioCtrl usuarioDAO = new UsuarioCtrl();
+        List<Tarefa> tarefas = usuarioDAO.consultarTarefas(usuarioSessao.getIdUsuario());
+        
         // Add each project to the content panel
         for (Tarefa tarefa : tarefas) {
             pnlTarefas.add(createTaskBlock(tarefa));
         }
         
+        try{
+            usuarioDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+            sqle.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
+        }
+        
         pnlTarefas.revalidate();
         pnlTarefas.repaint();
-    }//GEN-LAST:event_btAtualizarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TarefaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TarefaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TarefaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TarefaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TarefaGUI().setVisible(true);
-            }
-        });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;

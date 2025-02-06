@@ -44,13 +44,13 @@ public class TarefaCtrl{
     
     }
     
-    public void remover(Tarefa tarefa){
+    public void remover(Integer idTarefa){
         String sql = "DELETE FROM tarefa WHERE idtarefa = ?";
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
 
-            pstmt.setInt(1, tarefa.getIdTarefa());
+            pstmt.setInt(1, idTarefa);
             
             pstmt.executeUpdate();
         }
@@ -143,6 +143,11 @@ public class TarefaCtrl{
                     tarefa = new Tarefa(idTarefa, prazoentrega, descricao, prioridade, datacriacao, tUsuario, equipe, projeto);
                 }
                 
+                equipeDAO.getConexao().getConn().close();
+                usuarioDAO.getConexao().getConn().close();
+                projetoDAO.getConexao().getConn().close();
+                
+                
                 return tarefa;
             }
             
@@ -152,5 +157,13 @@ public class TarefaCtrl{
         }
         
         return null;
+    }
+    
+     public ConexaoSQL getConexao() {
+        return conexao;
+    }
+
+    public void setConexao(ConexaoSQL conexao) {
+        this.conexao = conexao;
     }
 }

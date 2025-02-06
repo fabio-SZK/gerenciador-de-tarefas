@@ -86,7 +86,6 @@ public class PerfilCtrl{
     
     public Perfil selecionar(int idUsuario){
         String sql = "SELECT nome, descricao, funcao, idusuario FROM perfil WHERE idusuario = ?";
-        UsuarioCtrl usuarioDAO = new UsuarioCtrl();
         
         try{
             PreparedStatement pstmt = conexao.getConn().prepareStatement(sql);
@@ -115,5 +114,13 @@ public class PerfilCtrl{
         }
         
         return null;
+    }
+    
+     public ConexaoSQL getConexao() {
+        return conexao;
+    }
+
+    public void setConexao(ConexaoSQL conexao) {
+        this.conexao = conexao;
     }
 }

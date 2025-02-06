@@ -11,21 +11,21 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import model.Equipe;
+import model.Usuario;
 
 /**
  *
  * @author Fabio
  */
-public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
+public class EquipeSelecionarUsuarioGUI extends javax.swing.JFrame {
     Integer idProjeto;
-    Integer idEquipe;
+    Integer idUsuario;
     GUIController guiController;
 
     public int getIdProjeto() {
@@ -36,12 +36,12 @@ public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
         this.idProjeto = idProjeto;
     }
 
-    public Integer getIdEquipe() {
-        return idEquipe;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdEquipe(Integer idEquipe) {
-        this.idEquipe = idEquipe;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     
@@ -50,23 +50,23 @@ public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
      * Creates new form TarefaProjetoGUI
      * @param idProjeto
      */
-    public ProjetoSelecionarEquipeGUI(GUIController guiController, Integer idProjeto) {
+    public EquipeSelecionarUsuarioGUI(GUIController guiController, Integer idProjeto) {
         this.idProjeto = idProjeto;
         this.guiController = guiController;
-                
+        
         initComponents();
         
-
+        // Fetch projects from database
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
-        List<Equipe> equipes = projetoDAO.consultarEquipes(idProjeto);
+        List<Usuario> usuarios = projetoDAO.consultarMembros(2);
 
-
-        for (Equipe equipe : equipes) {
-            pnlEquipes.add(createTeamBlock(equipe));
+        // Add each project to the content panel
+        for (Usuario usuario : usuarios) {
+            pnlUsuarios.add(createUserBlock(usuario));
         }
         
-        pnlEquipes.revalidate();
-        pnlEquipes.repaint();
+        pnlUsuarios.revalidate();
+        pnlUsuarios.repaint();
     }
 
     /**
@@ -81,7 +81,7 @@ public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         pnlScrl = new javax.swing.JScrollPane();
-        pnlEquipes = new javax.swing.JPanel();
+        pnlUsuarios = new javax.swing.JPanel();
 
         jButton1.setText("jButton1");
 
@@ -96,8 +96,8 @@ public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
 
         pnlScrl.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        pnlEquipes.setLayout(new javax.swing.BoxLayout(pnlEquipes, javax.swing.BoxLayout.Y_AXIS));
-        pnlScrl.setViewportView(pnlEquipes);
+        pnlUsuarios.setLayout(new javax.swing.BoxLayout(pnlUsuarios, javax.swing.BoxLayout.Y_AXIS));
+        pnlScrl.setViewportView(pnlUsuarios);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,14 +148,26 @@ public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProjetoSelecionarEquipeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EquipeSelecionarUsuarioGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProjetoSelecionarEquipeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EquipeSelecionarUsuarioGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProjetoSelecionarEquipeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EquipeSelecionarUsuarioGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProjetoSelecionarEquipeGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EquipeSelecionarUsuarioGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -164,31 +176,47 @@ public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProjetoSelecionarEquipeGUI(new GUIController() ,2).setVisible(true);
+                new EquipeSelecionarUsuarioGUI(new GUIController(), 2).setVisible(true);
             }
         });
     }
 
-    private JPanel createTeamBlock(Equipe equipe) {
+    private JPanel createUserBlock(Usuario usuario) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setBackground(Color.WHITE);
         panel.setPreferredSize(new Dimension(350, 100));
         panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-        JLabel rotDescricao = new JLabel("<html><i>" + equipe.getDescricao() + "</i></html>");
-        rotDescricao.setFont(new Font("Arial", Font.BOLD, 16));
         
-        JLabel rotFuncao = new JLabel("<html><i> Função: " + equipe.getFuncao() + "</i></html>");
-        rotFuncao.setFont(new Font("Arial", Font.PLAIN, 12));
+        ProjetoCtrl projetoDAO = new ProjetoCtrl();
 
+        JLabel rotNome = new JLabel("<html><i>" + usuario.getNome() + "</i></html>");
+        rotNome.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JLabel rotPerfilNome = new JLabel("<html><i>" + usuario.getPerfilUsuario().getNome() + "</i></html>");
+        rotPerfilNome.setFont(new Font("Arial", Font.PLAIN, 12));
+        
+        JLabel rotIdUsuario = new JLabel("<html><i>ID: " + usuario.getIdUsuario() + "</i></html>");
+        rotIdUsuario.setFont(new Font("Arial", Font.BOLD, 16));
+        
+        JLabel rotLider;
+        
+        if(projetoDAO.verificarLider(usuario.getIdUsuario(), idProjeto)){
+            rotLider = new JLabel("<html><i>Líder</i></html>");
+        }
+        else{
+            rotLider = new JLabel("");
+        }
+        
         JButton btDetalhes = new JButton("Selecionar");
-        btDetalhes.addActionListener(e -> selecionarEquipe(equipe.getIdEquipe()));
+        btDetalhes.addActionListener(e -> selecionarUsuario(usuario.getIdUsuario()));
 
         JPanel pnlTexto = new JPanel(new GridLayout(2, 2));
         pnlTexto.setBackground(Color.WHITE);
-        pnlTexto.add(rotDescricao);
-        pnlTexto.add(rotFuncao);
+        pnlTexto.add(rotNome);
+        pnlTexto.add(rotPerfilNome);
+        pnlTexto.add(rotIdUsuario);
+        pnlTexto.add(rotLider);
 
         panel.add(pnlTexto, BorderLayout.CENTER);
         panel.add(btDetalhes, BorderLayout.EAST);
@@ -196,16 +224,28 @@ public class ProjetoSelecionarEquipeGUI extends javax.swing.JFrame {
         return panel;
     }
     
-    public void selecionarEquipe(int idEquipe){
-        this.idEquipe = idEquipe;
-        guiController.setIdEquipe(idEquipe);
+    public void selecionarUsuario(int idUsuario){
+        this.idUsuario = idUsuario;
+        Usuario u = new Usuario();
+        u.setIdUsuario(idUsuario);
+        
+        List<Integer> idMembros = new ArrayList<>();
+        
+        for (Usuario m : guiController.getEquipeMembros()) {
+            idMembros.add(m.getIdUsuario());
+        }
+        
+        if(!idMembros.contains(idUsuario)){
+            guiController.getEquipeMembros().add(u);
+        }
+        
         dispose();
     }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JPanel pnlEquipes;
     private javax.swing.JScrollPane pnlScrl;
+    private javax.swing.JPanel pnlUsuarios;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,7 @@
  */
 package view;
 
+import control.GUIController;
 import model.Usuario;
 import control.UsuarioCtrl;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 public class LoginView extends javax.swing.JFrame {
     
     private Usuario sessao;
+    private GUIController guiController;
 
     public Usuario getSessao() {
         return sessao;
@@ -25,10 +27,13 @@ public class LoginView extends javax.swing.JFrame {
     }
     
 
+    
     /**
      * Creates new form LoginView
+     * @param guiController
      */
-    public LoginView() {
+    public LoginView(GUIController guiController) {
+        this.guiController = guiController;
         initComponents();
     }
 
@@ -45,9 +50,9 @@ public class LoginView extends javax.swing.JFrame {
         rotNomeUsuario = new javax.swing.JLabel();
         rotLogin = new javax.swing.JLabel();
         cxNomeUsuario = new javax.swing.JTextField();
-        cxSenha = new javax.swing.JTextField();
         rotSenha = new javax.swing.JLabel();
         btLogin = new javax.swing.JButton();
+        cxSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,12 +65,6 @@ public class LoginView extends javax.swing.JFrame {
         rotLogin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         rotLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         rotLogin.setText("Login");
-
-        cxSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cxSenhaActionPerformed(evt);
-            }
-        });
 
         rotSenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rotSenha.setText("Senha:");
@@ -80,14 +79,18 @@ public class LoginView extends javax.swing.JFrame {
         jLayeredPane1.setLayer(rotNomeUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(rotLogin, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(cxNomeUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(cxSenha, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(rotSenha, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(btLogin, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(cxSenha, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btLogin)
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jLayeredPane1Layout.createSequentialGroup()
@@ -99,20 +102,15 @@ public class LoginView extends javax.swing.JFrame {
                                 .addGap(118, 118, 118)
                                 .addComponent(rotLogin)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jLayeredPane1Layout.createSequentialGroup()
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jLayeredPane1Layout.createSequentialGroup()
+                                .addComponent(rotSenha)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(cxSenha, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cxNomeUsuario, javax.swing.GroupLayout.Alignment.LEADING))))
                 .addGap(117, 117, 117))
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rotSenha)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btLogin)
-                .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,61 +150,33 @@ public class LoginView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cxSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cxSenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cxSenhaActionPerformed
-
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         String usuario = cxNomeUsuario.getText();
-        String senha = cxSenha.getText();
+        String senha = new String(cxSenha.getPassword());
         System.out.println(usuario);
         System.out.println(senha);
 
         UsuarioCtrl usuarioDAO = new UsuarioCtrl();
         
         sessao = usuarioDAO.login(usuario, senha);
-        
+        if(sessao != null){
+            guiController.setUsuarioSessao(usuarioDAO.consultarUsuario(sessao.getIdUsuario()));
+            guiController.mostrarPrincipalGUILogin();
+        }
+        try{
+            usuarioDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            System.out.println(sqle.getMessage());
+        }
     }//GEN-LAST:event_btLoginActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginView().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogin;
     private javax.swing.JTextField cxNomeUsuario;
-    private javax.swing.JTextField cxSenha;
+    private javax.swing.JPasswordField cxSenha;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLabel rotLogin;
     private javax.swing.JLabel rotNomeUsuario;

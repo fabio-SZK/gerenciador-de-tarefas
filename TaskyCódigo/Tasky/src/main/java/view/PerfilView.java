@@ -4,6 +4,12 @@
  */
 package view;
 
+import control.GUIController;
+import control.PerfilCtrl;
+import java.sql.Date;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+import model.Perfil;
 import model.Usuario;
 
 /**
@@ -13,10 +19,22 @@ import model.Usuario;
 public class PerfilView extends javax.swing.JFrame {
     private Usuario usuarioSessao;
     private GUIController guiController;
+
+    public Usuario getUsuarioSessao() {
+        return usuarioSessao;
+    }
+
+    public void setUsuarioSessao(Usuario usuarioSessao) {
+        this.usuarioSessao = usuarioSessao;
+    }
+    
+    
+    
     /**
      * Creates new form PerfilView
      */
-    public PerfilView() {
+    public PerfilView(GUIController guiController) {
+        this.guiController = guiController;
         initComponents();
     }
 
@@ -39,7 +57,7 @@ public class PerfilView extends javax.swing.JFrame {
         btEnviar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         rotNome.setText("Nome de exibição:");
 
@@ -51,11 +69,18 @@ public class PerfilView extends javax.swing.JFrame {
         cxTextDescricao.setRows(5);
         jScrollPane1.setViewportView(cxTextDescricao);
 
-        cxNome.setText("jTextField1");
-
-        cxFuncao.setText("jTextField2");
+        cxFuncao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cxFuncaoActionPerformed(evt);
+            }
+        });
 
         btEnviar.setText("Enviar");
+        btEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEnviarActionPerformed(evt);
+            }
+        });
 
         btLimpar.setText("Limpar");
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -72,23 +97,23 @@ public class PerfilView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btLimpar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btEnviar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(rotFuncao)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cxFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cxFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(rotDescricao)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(rotNome)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cxNome, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btLimpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btEnviar)))
+                                .addComponent(cxNome, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -117,44 +142,53 @@ public class PerfilView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
-        // TODO add your handling code here:
+        limpar();
     }//GEN-LAST:event_btLimparActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PerfilView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PerfilView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PerfilView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PerfilView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void cxFuncaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cxFuncaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cxFuncaoActionPerformed
+
+    private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
+        LocalDate localDate = LocalDate.now();
+        Date dataCriacao = Date.valueOf(localDate);
+        Perfil perfil;
+        // adicionar projeto pelo controller depois
+
+        try{
+            String nome = cxNome.getText();
+            String descricao = cxTextDescricao.getText();
+            String objetivo = cxFuncao.getText();
+            perfil = new Perfil(null, nome, descricao, objetivo, usuarioSessao);
+
+            PerfilCtrl perfilDAO = new PerfilCtrl();
+            perfilDAO.atualizar(usuarioSessao, perfil);
+            perfilDAO.getConexao().getConn().close();
         }
-        //</editor-fold>
+        catch(NumberFormatException nfe){
+                JOptionPane.showMessageDialog(null,
+                "Formato de valor inválido",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        catch(Exception e){
+                JOptionPane.showMessageDialog(null,
+                "Formato de valor inválido",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PerfilView().setVisible(true);
-            }
-        });
+    }//GEN-LAST:event_btEnviarActionPerformed
+
+    
+    
+
+    private void limpar() {
+        cxTextDescricao.setText("");
+        cxNome.setText("");
+        cxFuncao.setText("");
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btLimpar;

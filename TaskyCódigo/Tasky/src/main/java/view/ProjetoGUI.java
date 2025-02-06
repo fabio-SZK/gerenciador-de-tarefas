@@ -4,12 +4,15 @@
  */
 package view;
 
+import control.GUIController;
+import control.ProjetoCtrl;
 import control.UsuarioCtrl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,27 +20,35 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.Projeto;
+import model.Usuario;
 
 /**
  *
  * @author Fabio
  */
 public class ProjetoGUI extends javax.swing.JFrame {
+    private Usuario usuarioSessao;
+    GUIController guiController;
+    
+    public Usuario getUsuarioSessao() {
+        return usuarioSessao;
+    }
 
+    public void setUsuarioSessao(Usuario usuarioSessao) {
+        this.usuarioSessao = usuarioSessao;
+    }
+    
     /**
      * Creates new form ProjetoGUI
+     * @param guiController
      */
-    public ProjetoGUI() {
+    public ProjetoGUI(GUIController guiController) {
+        this.usuarioSessao = new Usuario();
+        this.guiController = guiController;
         initComponents();
         
-        // Fetch projects from database
-        UsuarioCtrl projectDAO = new UsuarioCtrl();
-        List<Projeto> projects = projectDAO.consultarProjetos(2);
 
-        // Add each project to the content panel
-        for (Projeto project : projects) {
-            pnlProjetos.add(createProjectBlock(project));
-        }
+
 
     }
 
@@ -56,11 +67,9 @@ public class ProjetoGUI extends javax.swing.JFrame {
         pnlPrincipal = new javax.swing.JPanel();
         pnlScrlLista = new javax.swing.JScrollPane();
         pnlProjetos = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        btAtualizar = new javax.swing.JButton();
+        btAdicionarProjeto = new javax.swing.JButton();
+        btRemoverProjeto = new javax.swing.JButton();
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -98,16 +107,21 @@ public class ProjetoGUI extends javax.swing.JFrame {
         pnlProjetos.setLayout(new javax.swing.BoxLayout(pnlProjetos, javax.swing.BoxLayout.Y_AXIS));
         pnlScrlLista.setViewportView(pnlProjetos);
 
-        jButton1.setText("Atualizar");
-
-        jButton2.setText("Adicionar Projeto...");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btAtualizar.setText("Atualizar");
+        btAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btAtualizarActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Remover Projeto...");
+        btAdicionarProjeto.setText("Adicionar Projeto...");
+        btAdicionarProjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAdicionarProjetoActionPerformed(evt);
+            }
+        });
+
+        btRemoverProjeto.setText("Remover Projeto...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,15 +142,15 @@ public class ProjetoGUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 325, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                            .addComponent(btAtualizar)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(60, 60, 60)
                                 .addComponent(pnlScrlLista, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btRemoverProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btAdicionarProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(69, 69, 69))))
         );
         layout.setVerticalGroup(
@@ -156,21 +170,25 @@ public class ProjetoGUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3))
+                            .addComponent(btAdicionarProjeto)
+                            .addComponent(btRemoverProjeto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addComponent(pnlScrlLista, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(58, 58, 58)))
-                .addComponent(jButton1)
+                .addComponent(btAtualizar)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btAdicionarProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarProjetoActionPerformed
+        guiController.mostrarProjetoView();
+    }//GEN-LAST:event_btAdicionarProjetoActionPerformed
+
+    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+        atualizar();
+    }//GEN-LAST:event_btAtualizarActionPerformed
 
     private JPanel createProjectBlock(Projeto projeto) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -186,7 +204,7 @@ public class ProjetoGUI extends javax.swing.JFrame {
         rotDescricao.setFont(new Font("Arial", Font.PLAIN, 12));
 
         JButton btDetalhes = new JButton("View Details");
-        btDetalhes.addActionListener(e -> JOptionPane.showMessageDialog(null, "Project: " + projeto.getNome()));
+        btDetalhes.addActionListener(e -> mostrarDetalhes(projeto.getIdProjeto()));
 
         JPanel pnlTexto = new JPanel(new GridLayout(2, 1));
         pnlTexto.setBackground(Color.WHITE);
@@ -199,45 +217,49 @@ public class ProjetoGUI extends javax.swing.JFrame {
         return panel;
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProjetoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProjetoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProjetoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProjetoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    public void atualizar(){
+        pnlProjetos.removeAll();
+        pnlProjetos.revalidate();
+        pnlProjetos.repaint();
+        
+        UsuarioCtrl usuarioDAO = new UsuarioCtrl();
+        List<Projeto> projects = usuarioDAO.consultarProjetos(usuarioSessao.getIdUsuario());
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProjetoGUI().setVisible(true);
-            }
-        });
+
+        for (Projeto project : projects) {
+            pnlProjetos.add(createProjectBlock(project));
+        }
+        
+        try{
+            usuarioDAO.getConexao().getConn().close();
+        }
+        catch(SQLException sqle){
+            JOptionPane.showMessageDialog(null,
+            sqle.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
+        }
+        
+        pnlProjetos.revalidate();
+        pnlProjetos.repaint();
     }
 
+    public void mostrarDetalhes(Integer idProjeto){
+        ProjetoCtrl projetoDAO = new ProjetoCtrl();
+        
+        if(projetoDAO.verificarLider(usuarioSessao.getIdUsuario(), idProjeto)){
+            guiController.mostrarProjetoManagerGUI(idProjeto);
+        }
+        else{
+            guiController.mostrarProjetoViewerGUI(idProjeto);
+        }
+    }
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btAdicionarProjeto;
+    private javax.swing.JButton btAtualizar;
+    private javax.swing.JButton btRemoverProjeto;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel pnlPrincipal;

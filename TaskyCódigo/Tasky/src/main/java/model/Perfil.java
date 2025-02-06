@@ -1,17 +1,33 @@
 package model;
 
 public class Perfil {
-    private int idPerfil;
+    private Integer idPerfil;
     private String nome;
     private String descricao;
     private String funcao;
     private Usuario usuario;
 
+    public Perfil(Integer idPerfil, String nome, String descricao, String funcao, Usuario usuario) {
+        this.idPerfil = idPerfil;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.funcao = funcao;
+        this.usuario = usuario;
+    }
+
+    public Perfil(){
+        this.idPerfil = null;
+        this.nome = "";
+        this.descricao = "";
+        this.funcao = "";
+        this.usuario = null;
+    }
+   
     public int getIdPerfil() {
         return idPerfil;
     }
 
-    public void setIdPerfil(int idPerfil) {
+    public void setIdPerfil(Integer idPerfil) {
         this.idPerfil = idPerfil;
     }
 
