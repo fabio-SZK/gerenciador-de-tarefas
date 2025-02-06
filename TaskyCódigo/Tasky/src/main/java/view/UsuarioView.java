@@ -127,16 +127,20 @@ public class UsuarioView extends javax.swing.JFrame {
         Date dataCriacao = Date.valueOf(localDate);
         Usuario usuario;
         // adicionar projeto pelo controller depois
-
+        String nome = cxNome.getText();
+        String email = cxEmail.getText();
+        String senha = new String(cxSenha.getPassword());
         try{
-            String nome = cxNome.getText();
-            String email = cxEmail.getText();
-            String senha = new String(cxSenha.getPassword());
-            usuario = new Usuario(0, nome, senha, email, null);
-
+            usuario = new Usuario();
+            usuario.setIdUsuario(null);
+            usuario.setNome(nome);
+            usuario.setSenha(senha);
+            usuario.setEmail(email);
+            
+            
             UsuarioCtrl usuarioDAO = new UsuarioCtrl();
-            usuario = usuarioDAO.registrar(usuario);
-            if(usuario != null){
+            Usuario usuarioSessao = usuarioDAO.registrar(usuario);
+            if(usuarioSessao != null){
                 JOptionPane.showMessageDialog(null,
                 "Usuario cadastrado",
                 "Sucesso",

@@ -30,7 +30,7 @@ public class UsuarioCtrl{
         PerfilCtrl perfilDAO = new PerfilCtrl();
         
         try{
-            PreparedStatement pstmt = conexao.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
             PreparedStatement pstmtQuery = conexao.getConn().prepareStatement(sqlQuery);
             
             pstmtQuery.setString(1, usuario.getNome());
@@ -38,6 +38,7 @@ public class UsuarioCtrl{
             ResultSet rs = pstmtQuery.executeQuery();
             
             if(!rs.next()){
+                PreparedStatement pstmt = conexao.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 pstmt.setString(1, usuario.getNome());
                 pstmt.setString(2, usuario.getSenha());
                 pstmt.setString(3, usuario.getEmail());
@@ -47,7 +48,8 @@ public class UsuarioCtrl{
                 ResultSet rs2 = pstmt.getGeneratedKeys();
                 
                 if(rs2.next()){
-                    Integer idUsuario = rs2.getInt(1);
+                    Integer idUsuario = rs2.getInt("idUsuario");
+                    System.out.println(idUsuario);
                     usuario.setIdUsuario(idUsuario);
                     perfilDAO.adicionar(usuario);
                 }
@@ -60,8 +62,7 @@ public class UsuarioCtrl{
             }
         }
         catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
-            System.out.println("TEST");
+            sqle.printStackTrace();
         }
         
         return null; // Registração falhada
