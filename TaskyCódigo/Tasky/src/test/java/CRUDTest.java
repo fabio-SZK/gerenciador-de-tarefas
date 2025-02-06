@@ -9,7 +9,7 @@ import control.UsuarioCtrl;
  * @author Fabio
  */
 public class CRUDTest {
-    public static void main(String[] args) {
+    //public static void main(String[] args) {
 
         /*
         UsuarioCtrl usuarioDAO = new UsuarioCtrl();
@@ -58,8 +58,8 @@ public class CRUDTest {
         guiController.mostrarProjetoAtribuirTarefaView(2);
 */
         
-        GUIController guiController = new GUIController();
+        //GUIController guiController = new GUIController();
         
         
-    }
+    //}
 }

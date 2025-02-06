@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package main;
+import control.GUIController;
 import model.Usuario;
 import view.*;
 
@@ -13,6 +14,6 @@ import view.*;
 public class Main {
     public static void main(String[] args) {
 
-
+        GUIController guiController = new GUIController();
     }
 }
