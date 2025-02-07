@@ -71,7 +71,7 @@ Visualizar perfis de outros usuarios
 
 
 
-***Requisitos funcionais***
+## ***Requisitos funcionais***
 
 |Identificador| Descrição| Prioridade|
 | -------- | -------- | -------- |
@@ -94,7 +94,7 @@ Visualizar perfis de outros usuarios
 
 
 
-***Requisitos não funcionais***|
+## ***Requisitos não funcionais***|
 
 |Identificador| Descrição| Tipo|
 | -------- | -------- | -------- |
@@ -105,14 +105,14 @@ Visualizar perfis de outros usuarios
 |RNF05|O sistema deve ter uma interface intuitiva, permitindo que novos usuários completem uma tarefa em menos de 3 minutos.|Facilidade de uso|
 |RNF06|O sistema deve ser desenvolvido utilizando a linguagem de programação Java.|Implementação|
 
-***Relação de Atores***
+## ***Relação de Atores***
 
 |ID| Nome do ator| Descrição|
 | -------- | -------- | -------- |
 |A1|Usuário|Responsável por cadastrar Usuário, definir responsável pela tarefa, Gerenciar Projeto, Gerenciar Tarefa e Consultar Usuários|
 |A2|Administrador|Responsável por Gerenciar Equipe e Gerenciar Projeto|
 
-***Relação dos Casos de Uso***
+## ***Relação dos Casos de Uso***
 
 | ID    | Nome do Caso de Uso                 |
 |-------|-------------------------------------|
@@ -146,7 +146,7 @@ Visualizar perfis de outros usuarios
 | UC7.4 | Visualizar Projeto                  |
 | UC7.5 | Gerenciar Equipe                    |
 
-***Especificação dos Casos de Uso***
+## ***Especificação dos Casos de Uso***
 
 Fluxo Normal:
 | ID do Caso de Uso | ID do Cenário | Nome do Cenário           | Sequência de Eventos                                                                                                                                                                                                                   |
@@ -157,7 +157,7 @@ Fluxo Normal:
 | UC2               | UC2           | Gerenciar Perfil           | 1) O usuário acessa a opção de gerenciamento de perfil. <br> 2) O sistema exibe as informações atuais do perfil do usuário (nome, e-mail, etc.). <br> 3) O usuário atualiza as informações desejadas (nome, e-mail, senha, foto, etc.). <br> 4) O sistema valida as novas informações fornecidas. <br> 5) O sistema verifica se o e-mail ou nome de usuário atualizado já existe no banco de dados. <br> 6) O sistema salva as alterações no perfil. <br> 7) O sistema emite uma mensagem de sucesso, confirmando que o perfil foi atualizado. <br> 8) O sistema pergunta se o usuário deseja realizar mais alguma alteração no perfil. |
 | UC4               | UC4           | Definir Responsável pela Tarefa | 1) O usuário (gerente ou líder de projeto) acessa a opção de gerenciamento de tarefas. <br> 2) O sistema exibe a lista de tarefas disponíveis. <br> 3) O usuário seleciona a tarefa para a qual deseja definir um responsável. <br> 4) O sistema exibe a lista de membros da equipe. <br> 5) O usuário escolhe o membro que será o responsável pela tarefa. <br> 6) O sistema verifica se o membro selecionado já possui outras tarefas atribuídas e alerta, caso necessário. <br> 7) O sistema atualiza a tarefa com o responsável definido. <br> 8) O sistema emite uma mensagem de sucesso, confirmando que o responsável pela tarefa foi definido. <br> 9) O sistema pergunta se o usuário deseja definir outro responsável para uma nova tarefa. |
 
-Caminhos alternativos:
+## Caminhos alternativos:
 
 | ID do Caminho Alternativo | Descrição                                                                                                                                                                                                 |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
