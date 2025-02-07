@@ -1,6 +1,7 @@
 <h1 align="center"> Tasky </h1>
 
-#Objeto
+##Objetivo
+
 É um gerenciador de tarefas que tem como objetivo otimizar a organização e o acompanhamento das atividades empresariais e pessoais, promovendo maior eficiência e integração nos processos internos.
 
 ## Alunos: 
