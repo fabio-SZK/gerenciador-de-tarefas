@@ -1,5 +1,5 @@
 <h1 align="center"> Tasky </h1>
-# PROJETO DE SISTEMA DE GERENCIADOR DE TAREFAS
+
 #Objeto
 É um gerenciador de tarefas que tem como objetivo otimizar a organização e o acompanhamento das atividades empresariais e pessoais, promovendo maior eficiência e integração nos processos internos.
 
@@ -10,6 +10,11 @@
 2576198 - Fábio Massashi Suzuki
 
 2576201 – Gabriel Batistela Da Silva
+
+## ✔️Tecnologias utilizadas:
+- ``Java``
+- ``Astah UML``
+- ``SGDB PostgreSQL``
 
 # CLASSES -
 
