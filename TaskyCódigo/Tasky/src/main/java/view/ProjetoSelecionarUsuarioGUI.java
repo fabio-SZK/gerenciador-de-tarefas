@@ -58,7 +58,7 @@ public class ProjetoSelecionarUsuarioGUI extends javax.swing.JFrame {
         
         // Fetch projects from database
         ProjetoCtrl projetoDAO = new ProjetoCtrl();
-        List<Usuario> usuarios = projetoDAO.consultarMembros(2);
+        List<Usuario> usuarios = projetoDAO.consultarMembros(idProjeto);
 
         // Add each project to the content panel
         for (Usuario usuario : usuarios) {
