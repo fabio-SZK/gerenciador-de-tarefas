@@ -94,7 +94,7 @@ Visualizar perfis de outros usuarios
 
 
 
-## ***Requisitos não funcionais***|
+## ***Requisitos não funcionais***
 
 |Identificador| Descrição| Tipo|
 | -------- | -------- | -------- |
